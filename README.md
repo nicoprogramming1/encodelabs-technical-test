@@ -8,24 +8,47 @@ Este documento expone el relevamiento del proceso de desarrollo de una aplicaci�
 centrada en el CRUD de un PRODUCTO.
 Se presentarán las decisiones técnicas más relevantes adoptadas y su justificación.
 
-### Jira
-https://wnorowsky.atlassian.net/jira/software/projects/ET/boards/38/backlog
 
 # Análisis y diseño de la aplicación
 
 Debido a la simplicidad requerida en el enunciado, no se presentarán modelos de clases de diseño
-o diagramas de transición de estados.
+o diagramas de transición de estados, ni un análisis funcional riguroso.
+Se apuesta a lograr una aplicación SIMPLE, que resuelva el enunciado de una manera elegante, basada en buenas prácticas,
+utilizando patrones de diseño, principios SOLID, DRY y otros.
+
 De todas maneras, el desarrollo estará guiado según metodologías ágiles (SCRUM), aunque sin hacer
 hincapié en el detallismo o ahondar en este aspecto ya que no es requerido y conlleva tiempo.
 Las estimaciones y/o épicas no son rigurosas, no hay criterios de aceptación ni el comentario propio de una HU.
 
-Se apuesta a lograr una aplicación SIMPLE, que resuelva el enunciado de una manera elegante, basada en buenas prácticas,
-utilizando patrones de diseño, principios SOLID, DRY y otros.
+
+El desarrollo tomará sólo un Sprint de 7 días y se puede conocer el sprint backlog y su información relevante
+en Jira, cuya URL es la siguiente:
+
+### Jira
+https://wnorowsky.atlassian.net/jira/software/projects/ET/boards/38/backlog
+
+Al final, a modo de retrospectiva se presentará el burndown chart.
 
 
-## Decisiones técnicas
+# Decisiones técnicas
 
 Se presenta a continuación las decisiones técnicas concientes adoptadas durante el desarrollo.
+
+
+### Stack tecnológico
+
+- **Lenguaje:** Java (JDK 21)
+- **Framework:** Spring Boot
+- **IDE:** IntelliJ IDEA
+- **Base de Datos:** H2 (in-memory)
+- **ORM / Persistencia:** Spring Data JPA
+- **Mapper:** MapStruct (para desacoplar DTOs y entidades de dominio)
+- **Validaciones:** Jakarta Bean Validation
+- **Manejo de errores:** `@ControllerAdvice` | GlobalExceptionHandler + excepciones personalizadas
+- **Pruebas:** Postman (colección con pruebas automáticas incluidas)
+- **Arquitectura:** En capas (inspirada en principios de DDD)
+- **Gestión de configuración:** `application.properties` / `application.yml` / `.env`
+- **Contenedorización:** Docker
 
 
 ### Arquitectura
