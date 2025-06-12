@@ -7,6 +7,7 @@ This repository is for a Encodelabs technical-test.
 Este documento expone el relevamiento del proceso de desarrollo de una aplicación simple
 centrada en el CRUD de un PRODUCTO.
 Se presentarán las decisiones técnicas más relevantes adoptadas y su justificación.
+El documento en su totalidad (excepto el stack tecnológico formateado por IA) fue escrito "a mano" por mí.
 
 
 # Análisis y diseño de la aplicación
@@ -18,37 +19,38 @@ utilizando patrones de diseño, principios SOLID, DRY y otros.
 
 De todas maneras, el desarrollo estará guiado según metodologías ágiles (SCRUM), aunque sin hacer
 hincapié en el detallismo o ahondar en este aspecto ya que no es requerido y conlleva tiempo.
-Las estimaciones y/o épicas no son rigurosas, no hay criterios de aceptación ni el comentario propio de una HU.
+Las estimaciones y épicas no son rigurosas y las historias de usuario no tienen un comentario, actores ni especificaciones.
 
-
-El desarrollo tomará sólo un Sprint de 7 días y se puede conocer el sprint backlog y su información relevante
-en Jira, cuya URL es la siguiente:
+El desarrollo tomará sólo un Sprint de 7 días y será gestionado en Jira:
 
 ### Jira
-https://wnorowsky.atlassian.net/jira/software/projects/ET/boards/38/backlog
+https://wnorowsky.atlassian.net/jira/software/projects/ET/boards/38/backlog (deberían tener acceso público)
 
-Al final, a modo de retrospectiva se presentará el burndown chart.
+Al final del docuemnto, junto a la retrospectiva, se presentará el ***BURNDOWN CHART***.
 
 
 # Decisiones técnicas
 
-Se presenta a continuación las decisiones técnicas concientes adoptadas durante el desarrollo.
+Se presenta a continuación las decisiones técnicas adoptadas durante el desarrollo.
 
 
 ### Stack tecnológico
 
 - **Lenguaje:** Java (JDK 21)
 - **Framework:** Spring Boot
-- **IDE:** IntelliJ IDEA
-- **Base de Datos:** H2 (in-memory)
+- **IDE:** IntelliJ
+- **Base de Datos:** H2
 - **ORM / Persistencia:** Spring Data JPA
-- **Mapper:** MapStruct (para desacoplar DTOs y entidades de dominio)
+- **Mapper:** MapStruct
 - **Validaciones:** Jakarta Bean Validation
 - **Manejo de errores:** `@ControllerAdvice` | GlobalExceptionHandler + excepciones personalizadas
-- **Pruebas:** Postman (colección con pruebas automáticas incluidas)
-- **Arquitectura:** En capas (inspirada en principios de DDD)
+- **Pruebas:** Postman
+- **Arquitectura:** Layered (con ciertos conceptos DDD)
 - **Gestión de configuración:** `application.properties` / `application.yml` / `.env`
 - **Contenedorización:** Docker
+- **Documentación:** Swagger
+- **Control de versiones:** Git / Github
+- **Gestor de proyecto:** Jira
 
 
 ### Arquitectura
@@ -64,8 +66,8 @@ Creo que la arquitectura elegida es ***suficiente***, de lo contrario el costo d
 
 ### Patterns
 
-Realmente hay varios de ellos que por supuesto se implementan de manera implícita, se presentan solo algunos junto a los
-que sí se implementan de manera explícita y para cubrir una necesidad técnica o por buenas prácticas de desarrollo escalable.
+Realmente hay varios de ellos que por supuesto se implementan de manera implícita, se discrimina solo algunos junto a los
+implementandos explícitamente para cubrir una necesidad técnica o por buenas prácticas de desarrollo escalable y de bajo acoplamiento.
 
 - Adapter: de manera implícita, MapStruct actúa como adapter entre los DTOs y el modelo de dominio (en un sistema más complejo
   encapsularía la dependencia detrás de una interfaz para permitir el cambio de estrategia de mapeo pero no lo veo necesario aquí).
