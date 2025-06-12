@@ -8,6 +8,28 @@ Este documento detalla el análisis, desarrollo y las decisiones técnicas del p
 El documento en su totalidad (excepto el stack tecnológico formateado por IA) fue escrito "a mano".
 
 
+# RUN EncodelabsApplication
+
+### Levantar la aplicación con Docker
+
+Este proyecto usa Docker / Docker Compose para construir y ejecutar la aplicación Spring Boot.
+
+### Requisitos
+
+- Docker instalado y corriendo (Docker Compose)
+- Terminal tipo Bash (Linux, Mac o Git Bash en Windows)
+
+## Levantar la app
+
+Desde la raíz del proyecto, ejecutar en Bash / Git Bash:
+
+```bash
+chmod +x run.sh      # (Solo la primera vez en Linux)
+./run.sh
+```
+
+
+
 ### A tener en cuenta!
 
 Me tomé el atrevimiento de sumar algunas pocas cosas:
@@ -68,7 +90,7 @@ Se presenta a continuación las decisiones técnicas adoptadas durante el desarr
 - **Manejo de errores:** `@ControllerAdvice` | GlobalExceptionHandler + excepciones personalizadas
 - **Pruebas:** Postman
 - **Arquitectura:** Layered (con ciertos conceptos DDD)
-- **Gestión de configuración:** `application.properties` / `application.yml` / `.env`
+- **Gestión de configuración:** `application.yml` / `.env`
 - **Contenedorización:** Docker
 - **Documentación:** Swagger
 - **Control de versiones:** Git / Github
@@ -84,7 +106,7 @@ y sus propias validaciones de negocio y value objects (como price -> money).
 En un entorno más complejo o que fuera a crecer en un futuro, consideraría quizás una arquitectura hexagonal para una
 mejor escalabilidad y testeabilidad.
 Creo que la arquitectura elegida es ***suficiente***, de lo contrario el costo de desarrollo aumentaría de forma innecesaria.
-
+Se seguirá además el principio code-first para generar la db desde el código.
 
 ### Patterns
 
@@ -99,23 +121,20 @@ implementandos explícitamente para cubrir una necesidad técnica o por buenas p
 - Factory Method: al crear un nuevo producto, con sólo los atributos necesarios provenientes de la request.
 - Repository: para acceder a la base de datos evitando acoplamiento con la infrastructura.
 
+### Dependencias
 
-# RUN EncodelabsApplication
+Sólo se discriminan aquellas de índole utilitaria (no las del ecosistema de Spring Boot o la db)
 
-### Levantar la aplicación con Docker
+- MapStruct: para mapear
+- Spring dev tools: para live reload
+- Spring-dotenv: para acceder a los .env (aunque también se podría hacer de forma nativa)
+- Lombok: para logger y algunos decoradores de clase para reducir código boilerplate
 
-Este proyecto usa Docker / Docker Compose para construir y ejecutar la aplicación Spring Boot.
 
-### Requisitos
+## Documentación
 
-- Docker instalado y corriendo (Docker Compose)
-- Terminal tipo Bash (Linux, Mac o Git Bash en Windows)
-
-## Levantar la app
-
-1. Desde la raíz del proyecto, ejecuta:
-
-```bash
-chmod +x run.sh      # (Solo la primera vez en Linux)
-./run.sh
-
+Además del presente Readme, se seguirán buenas prácticas de código auto-documentado,
+comentarios javaDocs estandarizados, commits continuos y Swagger.
+No se implementará mucha configuración para Swagger, en una aplicación de mayor peso
+se gestionaría en un clase una personalización mayor de la información presentada y las
+respuestas, como del proyecto en general y su autoría, agrupación de paths relacionados, etc.
