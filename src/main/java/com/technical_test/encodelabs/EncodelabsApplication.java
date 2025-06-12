@@ -8,7 +8,6 @@ public class EncodelabsApplication {
    
    public static void main(String[] args) {
       SpringApplication.run(EncodelabsApplication.class, args);
-      System.out.println("Running");
    }
    
 }
