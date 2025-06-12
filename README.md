@@ -4,10 +4,16 @@ This repository is for a Encodelabs technical-test.
 ### Author: Nicolás W.
 
 
-Este documento expone el relevamiento del proceso de desarrollo de una aplicación simple
-centrada en el CRUD de un PRODUCTO.
-Se presentarán las decisiones técnicas más relevantes adoptadas y su justificación.
-El documento en su totalidad (excepto el stack tecnológico formateado por IA) fue escrito "a mano" por mí.
+Este documento detalla el análisis, desarrollo y las decisiones técnicas del presente proceso de selección.
+El documento en su totalidad (excepto el stack tecnológico formateado por IA) fue escrito "a mano".
+
+
+### A tener en cuenta!
+
+Me tomé el atrevimiento de sumar algunas pocas cosas:
+- El atributo id ahora es un ***UUID*** generado y con un formato validado (en vez de Integer incremental)
+- Se agrega un atributo ***boolean isActive*** para implementar soft/hard delete
+- El atributo price pasa a ser ***Money money***, Value Object con su currency y value
 
 
 # Análisis y diseño de la aplicación
@@ -26,8 +32,24 @@ El desarrollo tomará sólo un Sprint de 7 días y será gestionado en Jira:
 ### Jira
 https://wnorowsky.atlassian.net/jira/software/projects/ET/boards/38/backlog (deberían tener acceso público)
 
-Al final del docuemnto, junto a la retrospectiva, se presentará el ***BURNDOWN CHART***.
+Al final del docuemnto, junto a la retrospectiva, se presentará el ***Burndown chart***.
 
+
+
+
+## Criterios de aceptación
+
+| ***Product***
+    ■ id (UUID): autogenerado de 32 caracteres
+    ■ name (String): mínimo 3 caracteres, máximo 50 y no puede ser null
+    ■ description (String): máximo 200 caracteres, permite null
+    ■ money (Money): value object
+    ■ quantity (Integer): debe ser un número positivo
+
+| ***Money***
+    ■ currency (Currency): acepta valores "USD" | "ARS"
+    ■ value (Double): debe ser un número positivo
+    
 
 # Decisiones técnicas
 
