@@ -100,3 +100,22 @@ implementandos explícitamente para cubrir una necesidad técnica o por buenas p
 - Repository: para acceder a la base de datos evitando acoplamiento con la infrastructura.
 
 
+# RUN EncodelabsApplication
+
+### Levantar la aplicación con Docker
+
+Este proyecto usa Docker / Docker Compose para construir y ejecutar la aplicación Spring Boot.
+
+### Requisitos
+
+- Docker instalado y corriendo (Docker Compose)
+- Terminal tipo Bash (Linux, Mac o Git Bash en Windows)
+
+## Levantar la app
+
+1. Desde la raíz del proyecto, ejecuta:
+
+```bash
+chmod +x run.sh      # (Solo la primera vez en Linux)
+./run.sh
+
