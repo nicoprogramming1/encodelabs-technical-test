@@ -1,5 +1,8 @@
 package com.technical_test.encodelabs.exception;
 
+import lombok.Getter;
+
+@Getter
 public abstract class ApiException extends RuntimeException {
    
    private final int statusCode;
