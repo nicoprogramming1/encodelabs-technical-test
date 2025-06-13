@@ -20,7 +20,7 @@ public record ApiResponse<T>(
       return new ApiResponse<>(true, message, data != null ? data : List.of());
    }
    
-   public static <T> ApiResponse<List<T>> failure(String message) {
+   public static ApiResponse<List<Object>> failure(String message) {
       return new ApiResponse<>(false, message, List.of());
    }
 }
