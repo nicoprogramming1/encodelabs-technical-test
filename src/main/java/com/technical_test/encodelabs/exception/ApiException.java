@@ -11,8 +11,4 @@ public abstract class ApiException extends RuntimeException {
       super(message);
       this.statusCode = statusCode;
    }
-   
-   public int getStatusCode() {
-      return this.statusCode;
-   }
 }

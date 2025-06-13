@@ -4,7 +4,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ApiErrorResponse {
+public final class ApiErrorResponse {
    private final LocalDateTime timestamp = LocalDateTime.now();
    private final int statusCode;
    private final String message;
