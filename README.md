@@ -1,12 +1,11 @@
 # encodelabs-technical-test
+
 This repository is for a Encodelabs technical-test.
 
 ### Author: Nicolás W.
 
-
 Este documento detalla el análisis, desarrollo y las decisiones técnicas del presente proceso de selección.
 El documento en su totalidad (excepto el stack tecnológico formateado por IA) fue escrito "a mano".
-
 
 # RUN EncodelabsApplication
 
@@ -28,15 +27,13 @@ chmod +x run.sh      # (Solo la primera vez en Linux)
 ./run.sh
 ```
 
-
-
 ### A tener en cuenta!
 
 Me tomé el atrevimiento de sumar algunas pocas cosas:
+
 - El atributo id ahora es un ***UUID*** generado y con un formato validado (en vez de Integer incremental)
 - Se agrega un atributo ***boolean isActive*** para implementar soft/hard delete
 - El atributo price pasa a ser ***Money money***, Value Object con su currency y value
-
 
 # Análisis y diseño de la aplicación
 
@@ -47,36 +44,33 @@ utilizando patrones de diseño, principios SOLID, DRY y otros.
 
 De todas maneras, el desarrollo estará guiado según metodologías ágiles (SCRUM), aunque sin hacer
 hincapié en el detallismo o ahondar en este aspecto ya que no es requerido y conlleva tiempo.
-Las estimaciones y épicas no son rigurosas y las historias de usuario no tienen un comentario, actores ni especificaciones.
+Las estimaciones y épicas no son rigurosas y las historias de usuario no tienen un comentario, actores ni
+especificaciones.
 
 El desarrollo tomará sólo un Sprint de 7 días y será gestionado en Jira:
 
 ### Jira
+
 https://wnorowsky.atlassian.net/jira/software/projects/ET/boards/38/backlog (deberían tener acceso público)
 
 Al final del docuemnto, junto a la retrospectiva, se presentará el ***Burndown chart***.
 
-
-
-
 ## Criterios de aceptación
 
 | ***Product***
-    ■ id (UUID): autogenerado de 32 caracteres
-    ■ name (String): mínimo 3 caracteres, máximo 50 y no puede ser null
-    ■ description (String): máximo 200 caracteres, permite null
-    ■ money (Money): value object
-    ■ quantity (Integer): debe ser un número positivo
+■ id (UUID): autogenerado de 32 caracteres
+■ name (String): mínimo 3 caracteres, máximo 50 y no puede ser null
+■ description (String): máximo 200 caracteres, permite null
+■ money (Money): value object
+■ quantity (Integer): debe ser un número positivo
 
 | ***Money***
-    ■ currency (Currency): acepta valores "USD" | "ARS"
-    ■ value (Double): debe ser un número positivo
-    
+■ currency (Currency): acepta valores "USD" | "ARS"
+■ value (Double): debe ser un número positivo
 
 # Decisiones técnicas
 
 Se presenta a continuación las decisiones técnicas adoptadas durante el desarrollo.
-
 
 ### Stack tecnológico
 
@@ -96,7 +90,6 @@ Se presenta a continuación las decisiones técnicas adoptadas durante el desarr
 - **Control de versiones:** Git / Github
 - **Gestor de proyecto:** Jira
 
-
 ### Arquitectura
 
 Se adoptará un diseño en capas o ***Layered*** (Controller / Service / Repository) por simplicidad, claridad
@@ -105,16 +98,21 @@ De igual manera se tomarán principios de ***DDD*** compatibles con esta arquite
 y sus propias validaciones de negocio y value objects (como price -> money).
 En un entorno más complejo o que fuera a crecer en un futuro, consideraría quizás una arquitectura hexagonal para una
 mejor escalabilidad y testeabilidad.
-Creo que la arquitectura elegida es ***suficiente***, de lo contrario el costo de desarrollo aumentaría de forma innecesaria.
+Creo que la arquitectura elegida es ***suficiente***, de lo contrario el costo de desarrollo aumentaría de forma
+innecesaria.
 Se seguirá además el principio code-first para generar la db desde el código.
 
 ### Patterns
 
-Realmente hay varios de ellos que por supuesto se implementan de manera implícita, se discrimina solo algunos junto a los
-implementandos explícitamente para cubrir una necesidad técnica o por buenas prácticas de desarrollo escalable y de bajo acoplamiento.
+Realmente hay varios de ellos que por supuesto se implementan de manera implícita, se discrimina solo algunos junto a
+los
+implementandos explícitamente para cubrir una necesidad técnica o por buenas prácticas de desarrollo escalable y de bajo
+acoplamiento.
 
-- Adapter: de manera implícita, MapStruct actúa como adapter entre los DTOs y el modelo de dominio (en un sistema más complejo
-  encapsularía la dependencia detrás de una interfaz para permitir el cambio de estrategia de mapeo pero no lo veo necesario aquí).
+- Adapter: de manera implícita, MapStruct actúa como adapter entre los DTOs y el modelo de dominio (en un sistema más
+  complejo
+  encapsularía la dependencia detrás de una interfaz para permitir el cambio de estrategia de mapeo pero no lo veo
+  necesario aquí).
 - Builder: al recuperar un producto desde DB, construye un producto con todos sus atributos.
 - Data Access Object: de manera implícita por ejemplo en JPA Repository
 - Data Transfer Object: los DTOs implementados desacoplan la representación externa de la entidad.
@@ -130,6 +128,13 @@ Sólo se discriminan aquellas de índole utilitaria (no las del ecosistema de Sp
 - Spring-dotenv: para acceder a los .env (aunque también se podría hacer de forma nativa)
 - Lombok: para logger y algunos decoradores de clase para reducir código boilerplate
 
+### Exceptions
+
+Se implementarán handlers global y personalizados (bad request, validation y not found), con su log
+correspondiente y la información pertinente para el posterior debug.
+Las clases de cada excepción personalizada heredan de la clase abstracta ApiException que a su vez
+hereda de RunTimeException y le pasa a través del super el message para que este lo guarde y poder
+recuperarlo luego en el handler.
 
 ## Documentación
 
@@ -138,3 +143,18 @@ comentarios javaDocs estandarizados, commits continuos y Swagger.
 No se implementará mucha configuración para Swagger, en una aplicación de mayor peso
 se gestionaría en un clase una personalización mayor de la información presentada y las
 respuestas, como del proyecto en general y su autoría, agrupación de paths relacionados, etc.
+
+## API Response
+
+Se implementa una plantilla de respuesta standard para consistencia en el front.
+El campo data es un array, ya que en caso de no devolver datos no llega un null sino []
+y a la vez está preparado para gestionar listas.
+La response expone a través de sus métodos success / failure un objeto de tipo:
+
+```
+    {
+        boolean success,
+        String message,
+        List<T> data
+    }
+```
