@@ -145,6 +145,13 @@ Las clases de cada excepción personalizada heredan de la clase abstracta ApiExc
 hereda de RunTimeException y le pasa a través del super el message para que este lo guarde y poder
 recuperarlo luego en el handler.
 
+***Error cases***
+
+- Para respuestas HTTP -> ApiException y @ControllerAdvice
+- Por errores controlados que no interrumpan el flujo -> try-catch
+- Por errores de librería -> try-catch y ApiException
+- Los errores inesperados los captura Spring
+
 
 ## Documentación
 
