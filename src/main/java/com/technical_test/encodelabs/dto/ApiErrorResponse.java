@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class ApiErrorResponse {
-   private LocalDateTime timestamp = LocalDateTime.now();
+   private final LocalDateTime timestamp = LocalDateTime.now();
    private final int statusCode;
    private final String message;
    private final String path;
