@@ -34,6 +34,9 @@ public class ProductEntity {
    @Column(nullable = false)
    private Integer quantity;
    
+   @Column(nullable = false)
+   private boolean isActive;  // por defecto es true
+   
    @Column(nullable = false, updatable = false)
    private LocalDateTime createdAt;
    
@@ -43,6 +46,7 @@ public class ProductEntity {
    // auto generemos timestamps en operaciones save or update
    @PrePersist
    public void onCreate() {
+      this.isActive = true;
       this.createdAt = this.updatedAt = LocalDateTime.now();
    }
    
