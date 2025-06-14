@@ -108,6 +108,7 @@ En un entorno más complejo o que fuera a crecer en un futuro, consideraría qui
 mejor escalabilidad y testeabilidad.
 Creo que la arquitectura elegida es ***suficiente***, de lo contrario el costo de desarrollo aumentaría de forma
 innecesaria.
+Cumple con separar el dominio de la parte técnica, sin dependencia de frameworks
 Se seguirá además el principio code-first para generar la db desde el código.
 
 
@@ -161,6 +162,8 @@ No se implementará mucha configuración para Swagger, en una aplicación de may
 se gestionaría en un clase una personalización mayor de la información presentada y las
 respuestas, como del proyecto en general y su autoría, agrupación de paths relacionados, etc.
 
+***El código está SOBRE-COMENTADO en detalle, esto por razones de ser una prueba técnica, de lo contrario
+me limitaría a la mínima expresión necesaria para transmitir de forma clara y concisa.***
 
 ## API Response
 
