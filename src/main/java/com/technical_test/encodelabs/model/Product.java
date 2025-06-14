@@ -21,9 +21,10 @@ public class Product {
    private String description; // opcional
    private Money price;
    private Integer quantity;
+   private boolean isActive;
    
    
-   private Product(UUID id, String name, String description, BigDecimal priceAmount, Integer quantity) {
+   private Product(UUID id, String name, String description, BigDecimal priceAmount, Integer quantity, boolean isActive) {
       
       Validate.notNull(id, "Id cannot be null");
       Validate.isInstanceOf(UUID.class, id, "Id must be an UUID instance");
@@ -36,8 +37,8 @@ public class Product {
          Validate.isTrue(description.length() <= 300, "Description must be at most 300 characters");
       }
       
-      Validate.notNull(priceAmount, "Price cannot be null");
-      Validate.isTrue(priceAmount.compareTo(BigDecimal.ZERO) >= 0, "Price must be zero or positive");
+      Validate.notNull(priceAmount, "Price amount cannot be null");
+      Validate.isTrue(priceAmount.compareTo(BigDecimal.ZERO) >= 0, "Price amount must be zero or positive");
       
       Validate.notNull(quantity, "Quantity cannot be null");
       Validate.isTrue(quantity >= 0, "Quantity must be zero or positive");
@@ -47,6 +48,7 @@ public class Product {
       this.description = description;
       this.price = new Money(priceAmount);
       this.quantity = quantity;
+      this.isActive = isActive;  // true pór defecto
    }
    
    /**
@@ -62,7 +64,7 @@ public class Product {
     */
    public static Product create(String name, String description, BigDecimal priceAmount, Integer quantity) {
       UUID id = UUID.randomUUID();
-      return new Product(id, name, description, priceAmount, quantity);
+      return new Product(id, name, description, priceAmount, quantity, true);
    }
    
    // MÉTODOS PROPIOS QUE NO SE VAN A IMPLEMENTAR por ej AddProduct para agregar stock a un prod registrado, etc
