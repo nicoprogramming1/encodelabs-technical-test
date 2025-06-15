@@ -1,5 +1,6 @@
 package com.technical_test.encodelabs.model;
 
+import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
 import com.technical_test.encodelabs.model.builder.ProductBuilder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -74,6 +75,7 @@ public class Product {
       this.price = builder.getPrice();
       this.quantity = builder.getQuantity();
       this.isActive = builder.isActive();
+      this.updatedAt = builder.getUpdatedAt();
       
       log.info("Product successfully created by builder:\n{}", this); // deberia devolverme la clase
    }
@@ -82,22 +84,21 @@ public class Product {
     * Este factory method abstrae del constructor privado y delega a este la responsabilidad
     * de validar y devolvernos una instancia válida de un nuevo registro de producto
     *
-    * @param name        de nuevo producto
-    * @param description puede ser opcional
-    * @param priceAmount de tipo BigDecimal para precisión
-    * @param quantity    puede ser 0 o positivo
+    * @param dto de registro de un nuevo producto
     * @return el Product creado
     */
-   public static Product create(String name, String description, BigDecimal priceAmount, Integer quantity) {
+   public static Product create(ProductRegisterRequestDTO dto) {
+      System.out.println("CREATE: " + dto.priceAmount());
+      
       UUID id = UUID.randomUUID();
-      Money price = new Money(priceAmount);
+      Money price = new Money(dto.priceAmount());
       
-      Validate.notNull(priceAmount, "Price amount cannot be null");
-      Validate.isTrue(priceAmount.compareTo(BigDecimal.ZERO) >= 0, "Price amount must be zero or positive");
+      Validate.notNull(dto.priceAmount(), "Price amount cannot be null");
+      Validate.isTrue(dto.priceAmount().compareTo(BigDecimal.ZERO) >= 0, "Price amount must be zero or positive");
       
-      log.info("New product info setted in Product create method: {}, id: {}", name, id);
+      log.info("New product info setted in Product create method: {}, id: {}", dto.name(), id);
       
-      return new Product(id, name, description, price, quantity, true, null);
+      return new Product(id, dto.name(), dto.description(), price, dto.quantity(), true, null);
    }
    
    public static ProductBuilder builder() {
