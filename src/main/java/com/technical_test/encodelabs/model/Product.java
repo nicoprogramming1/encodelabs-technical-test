@@ -2,6 +2,7 @@ package com.technical_test.encodelabs.model;
 
 import com.technical_test.encodelabs.model.builder.ProductBuilder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ import java.util.UUID;
  * - Un builder que construye el objeto recuperado desde DB (mapper mediante)
  * - Un factory method para registrar un nuevo producto o actualizarlo
  */
+@Slf4j
 @Getter
 public class Product {
    
@@ -50,6 +52,8 @@ public class Product {
       this.price = price;
       this.quantity = quantity;
       this.isActive = isActive;  // true pór defecto
+      
+      log.info("New product successfully registered: {}, id: {}", name, id);
    }
    
    // no voy a validar porque vienen de db (aunque validaciones mínimas no estarían mal ...)
@@ -60,6 +64,8 @@ public class Product {
       this.price = builder.getPrice();
       this.quantity = builder.getQuantity();
       this.isActive = builder.isActive();
+      
+      log.info("Product successfully created by builder:\n{}", this); // deberia devolverme la clase
    }
    
    /**
@@ -78,6 +84,8 @@ public class Product {
       
       Validate.notNull(priceAmount, "Price amount cannot be null");
       Validate.isTrue(priceAmount.compareTo(BigDecimal.ZERO) >= 0, "Price amount must be zero or positive");
+      
+      log.info("New product info setted in Product create method: {}, id: {}", name, id);
       
       return new Product(id, name, description, price, quantity, true);
    }
