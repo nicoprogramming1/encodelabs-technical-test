@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Se ponen a disposición los transactions y se ejecute rollback en caso de error
  */
 @Slf4j
-@SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.technical_test.encodelabs.repository")
+@SpringBootApplication(scanBasePackages = "com.technical_test.encodelabs")
+@EnableJpaRepositories(basePackages = "com.technical_test.encodelabs.persistence.repository")
 @EnableTransactionManagement
 public class EncodelabsApplication {
    
