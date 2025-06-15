@@ -1,9 +1,9 @@
 package com.technical_test.encodelabs.config;
 
+import com.technical_test.encodelabs.common.util.LogInfo;
+import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
 import com.technical_test.encodelabs.model.Product;
 import com.technical_test.encodelabs.repository.ProductRepository;
-import com.technical_test.encodelabs.service.MessageService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -15,26 +15,30 @@ import java.util.List;
  * CommandLineRunner. Los guardo a todos juntos mediante saveAll
  * y cada uno es creado mediante el static de Product (factory method)
  */
-@Slf4j
 @Component
 public class ProductSeeder implements CommandLineRunner {
    
    private final ProductRepository productRepository;
-   private final MessageService msgService;
+   private final LogInfo log;
+   private final String className = this.getClass().getName(); // DONT REPEAT YOURSELF !!!
    
-   public ProductSeeder(ProductRepository productRepository, MessageService msgService) {
+   public ProductSeeder(ProductRepository productRepository, LogInfo log) {
       this.productRepository = productRepository;
-      this.msgService = msgService;
+      this.log = log;
    }
    
    // separamos responsabilidades
    private List<Product> getSeedProducts() {
-      List<Product> products = List.of(
-              Product.create("Camisa", "Camiseta de algodón color negro", new BigDecimal("19.99"), 50),
-              Product.create("Pantalón", "Jean azul", new BigDecimal("40.00"), 10),
-              Product.create("Zapatillas", "Zapatillas de lona blancas", new BigDecimal("15.50"), 100)
+      
+      List<ProductRegisterRequestDTO> seedingProducts = List.of(
+              new ProductRegisterRequestDTO("Camisa", "Camiseta de algodón color negro", new BigDecimal("19.99"), 50),
+              new ProductRegisterRequestDTO("Pantalón", "Jean azul", new BigDecimal("40.00"), 10),
+              new ProductRegisterRequestDTO("Zapatillas", "Zapatillas de lona blancas", new BigDecimal("15.50"), 100)
       );
-      log.info("Seeder products created: {}", products.stream().map(Product::getName)); // paso la referencia de getName
+      
+      List<Product> products = seedingProducts.stream().map(Product::create).toList();
+      
+      log.logInfoAction("seeder.created", products, className);
       return products;
    }
    
@@ -44,14 +48,12 @@ public class ProductSeeder implements CommandLineRunner {
          List<Product> products = getSeedProducts();
          productRepository.saveAll(products);
          
-         // doble placeholder             1ro                     2d
-         log.info("{}{}", msgService.get("seeder.inserted"), products);
-         System.out.println(msgService.get("seeder.inserted"));
+         log.logInfoAction("seeder.inserted", products, className);
+         System.out.println("Seeders successfully inserted");
       } else {
          // por más que con la config actual siempre se recrea la db, si cambiaramos la
          // estrategia ya queda esto funcional (debería se algo más interesante)
-         log.info("Seeder products created");
-         System.out.println(msgService.get("seeder.notNecesary"));
+         System.out.println("Seeding not necessary");
       }
    }
 }
