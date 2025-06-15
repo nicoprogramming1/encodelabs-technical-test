@@ -23,4 +23,8 @@ public record ApiResponseDTO<T>(
    public static ApiResponseDTO<List<Object>> failure(String message) {
       return new ApiResponseDTO<>(false, message, List.of());
    }
+   
+   public static <T> ApiResponseDTO<PaginatedResponseDTO<T>> paginatedSuccess(String message, PaginatedResponseDTO<T> data) {
+      return new ApiResponseDTO<>(true, message, data);
+   }
 }
