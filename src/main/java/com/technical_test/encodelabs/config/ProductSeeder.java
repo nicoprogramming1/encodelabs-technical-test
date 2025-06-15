@@ -2,6 +2,8 @@ package com.technical_test.encodelabs.config;
 
 import com.technical_test.encodelabs.model.Product;
 import com.technical_test.encodelabs.repository.ProductRepository;
+import com.technical_test.encodelabs.service.MessageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,32 +15,43 @@ import java.util.List;
  * CommandLineRunner. Los guardo a todos juntos mediante saveAll
  * y cada uno es creado mediante el static de Product (factory method)
  */
+@Slf4j
 @Component
 public class ProductSeeder implements CommandLineRunner {
    
    private final ProductRepository productRepository;
+   private final MessageService msgService;
    
-   public ProductSeeder(ProductRepository productRepository) {
+   public ProductSeeder(ProductRepository productRepository, MessageService msgService) {
       this.productRepository = productRepository;
+      this.msgService = msgService;
    }
    
+   // separamos responsabilidades
    private List<Product> getSeedProducts() {
-      return List.of(
+      List<Product> products = List.of(
               Product.create("Camisa", "Camiseta de algodón color negro", new BigDecimal("19.99"), 50),
               Product.create("Pantalón", "Jean azul", new BigDecimal("40.00"), 10),
               Product.create("Zapatillas", "Zapatillas de lona blancas", new BigDecimal("15.50"), 100)
       );
+      log.info("Seeder products created: {}", products.stream().map(Product::getName)); // paso la referencia de getName
+      return products;
    }
    
    @Override
    public void run(String... args) {
       if (productRepository.count() == 0) {
          List<Product> products = getSeedProducts();
-         
          productRepository.saveAll(products);
-         System.out.println("Productos creados por seed.");
+         
+         // doble placeholder             1ro                     2d
+         log.info("{}{}", msgService.get("seeder.inserted"), products);
+         System.out.println(msgService.get("seeder.inserted"));
       } else {
-         System.out.println("Hay productos en DB, no se ejecuta seed.");
+         // por más que con la config actual siempre se recrea la db, si cambiaramos la
+         // estrategia ya queda esto funcional (debería se algo más interesante)
+         log.info("Seeder products created");
+         System.out.println(msgService.get("seeder.notNecesary"));
       }
    }
 }
