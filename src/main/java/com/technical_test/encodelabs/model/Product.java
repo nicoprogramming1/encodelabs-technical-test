@@ -1,5 +1,6 @@
 package com.technical_test.encodelabs.model;
 
+import com.technical_test.encodelabs.model.builder.ProductBuilder;
 import lombok.Getter;
 import org.apache.commons.lang3.Validate;
 
@@ -24,7 +25,7 @@ public class Product {
    private boolean isActive;
    
    
-   private Product(UUID id, String name, String description, BigDecimal priceAmount, Integer quantity, boolean isActive) {
+   private Product(UUID id, String name, String description, Money price, Integer quantity, boolean isActive) {
       
       Validate.notNull(id, "Id cannot be null");
       Validate.isInstanceOf(UUID.class, id, "Id must be an UUID instance");
@@ -37,18 +38,24 @@ public class Product {
          Validate.isTrue(description.length() <= 300, "Description must be at most 300 characters");
       }
       
-      Validate.notNull(priceAmount, "Price amount cannot be null");
-      Validate.isTrue(priceAmount.compareTo(BigDecimal.ZERO) >= 0, "Price amount must be zero or positive");
-      
       Validate.notNull(quantity, "Quantity cannot be null");
       Validate.isTrue(quantity >= 0, "Quantity must be zero or positive");
       
       this.id = id;
       this.name = name;
       this.description = description;
-      this.price = new Money(priceAmount);
+      this.price = price;
       this.quantity = quantity;
       this.isActive = isActive;  // true pór defecto
+   }
+   
+   private Product(ProductBuilder builder) {
+      this.id = builder.getId();
+      this.name = builder.getName();
+      this.description = builder.getDescription();
+      this.price = builder.getPrice();
+      this.quantity = builder.getQuantity();
+      this.isActive = builder.isActive();
    }
    
    /**
@@ -64,7 +71,20 @@ public class Product {
     */
    public static Product create(String name, String description, BigDecimal priceAmount, Integer quantity) {
       UUID id = UUID.randomUUID();
-      return new Product(id, name, description, priceAmount, quantity, true);
+      Money price = new Money(priceAmount);
+      
+      Validate.notNull(priceAmount, "Price amount cannot be null");
+      Validate.isTrue(priceAmount.compareTo(BigDecimal.ZERO) >= 0, "Price amount must be zero or positive");
+      
+      return new Product(id, name, description, price, quantity, true);
+   }
+   
+   public static ProductBuilder builder() {
+      return new ProductBuilder();
+   }
+   
+   public static Product fromBuilder(ProductBuilder builder) {
+      return new Product(builder);
    }
    
    // MÉTODOS PROPIOS QUE NO SE VAN A IMPLEMENTAR por ej AddProduct para agregar stock a un prod registrado, etc
