@@ -31,7 +31,8 @@ public abstract class ProductMapper {
               entity.getDescription(),
               price,
               entity.getQuantity(),
-              entity.isActive()
+              entity.isActive(),
+              entity.getUpdatedAt()
       );
    }
    
