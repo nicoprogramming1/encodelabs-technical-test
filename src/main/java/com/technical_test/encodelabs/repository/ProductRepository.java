@@ -1,6 +1,8 @@
 package com.technical_test.encodelabs.repository;
 
 import com.technical_test.encodelabs.model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +19,7 @@ public interface ProductRepository {
    
    void saveAll(List<Product> products); // para seeder (podría usarse para crear múltiples products)
    
-   List<Product> findAll();
+   Page<Product> findAll(Pageable pageable);
    
    List<Product> findActiveAll();
    
