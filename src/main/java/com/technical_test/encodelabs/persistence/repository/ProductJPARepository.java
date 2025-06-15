@@ -2,12 +2,10 @@ package com.technical_test.encodelabs.persistence.repository;
 
 import com.technical_test.encodelabs.persistence.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -18,13 +16,13 @@ import java.util.UUID;
 public interface ProductJPARepository extends JpaRepository<ProductEntity, UUID> {
    
    // lista productos activos
-   @Query("SELECT p FROM ProductEntity p WHERE p.active = true")
+   @Query("SELECT p FROM ProductEntity p WHERE p.isActive = true")
    List<ProductEntity> findActiveAll();
    
    // lista productos inactivos
-   @Query("SELECT p FROM ProductEntity p WHERE p.active = false")
+   @Query("SELECT p FROM ProductEntity p WHERE p.isActive = false")
    List<ProductEntity> findInactiveAll();
    
-   @Query("SELECT p.active FROM ProductEntity p WHERE p.id = :id")
+   @Query("SELECT p.isActive FROM ProductEntity p WHERE p.id = :id")
    boolean isActive(@Param("id") UUID id);
 }
