@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -28,9 +29,17 @@ public class Product {
    private Money price;
    private Integer quantity;
    private boolean isActive;
+   private LocalDateTime updatedAt;
    
-   
-   private Product(UUID id, String name, String description, Money price, Integer quantity, boolean isActive) {
+   private Product(
+           UUID id,
+           String name,
+           String description,
+           Money price,
+           Integer quantity,
+           boolean isActive,
+           LocalDateTime updatedAt  // por reglas de negocio lo voy a incluir
+   ) {
       
       Validate.notNull(id, "Id cannot be null");
       Validate.isInstanceOf(UUID.class, id, "Id must be an UUID instance");
@@ -52,6 +61,7 @@ public class Product {
       this.price = price;
       this.quantity = quantity;
       this.isActive = isActive;  // true pór defecto
+      this.updatedAt = updatedAt;
       
       log.info("New product successfully registered: {}, id: {}", name, id);
    }
@@ -87,7 +97,7 @@ public class Product {
       
       log.info("New product info setted in Product create method: {}, id: {}", name, id);
       
-      return new Product(id, name, description, price, quantity, true);
+      return new Product(id, name, description, price, quantity, true, null);
    }
    
    public static ProductBuilder builder() {
