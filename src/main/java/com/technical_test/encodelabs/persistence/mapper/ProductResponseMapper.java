@@ -1,8 +1,11 @@
 package com.technical_test.encodelabs.persistence.mapper;
 
+import com.technical_test.encodelabs.dto.PaginatedResponseDTO;
 import com.technical_test.encodelabs.dto.Product.ProductResponseDTO;
 import com.technical_test.encodelabs.model.Product;
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -30,5 +33,17 @@ public abstract class ProductResponseMapper {
    
    public List<ProductResponseDTO> toResponseList(List<Product> products) {
       return products.stream().map(this::toResponse).toList();
+   }
+   
+   public PaginatedResponseDTO<ProductResponseDTO> toPaginatedResponse(Page<Product> page) {
+      List<ProductResponseDTO> dtos = toResponseList(page.getContent());
+      return new PaginatedResponseDTO<>(
+              dtos,
+              page.getNumber(),
+              page.getSize(),
+              page.getTotalElements(),
+              page.getTotalPages(),
+              page.isLast()
+      );
    }
 }
