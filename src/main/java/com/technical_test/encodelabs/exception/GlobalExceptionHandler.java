@@ -1,7 +1,7 @@
 package com.technical_test.encodelabs.exception;
 
 import com.technical_test.encodelabs.common.util.ApiErrorLogger;
-import com.technical_test.encodelabs.dto.ApiResponse;
+import com.technical_test.encodelabs.dto.ApiResponseDTO;
 import com.technical_test.encodelabs.service.MessageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public final class GlobalExceptionHandler {
     * @return un ResponseEntity de tipo ApiResponse para dar una respuesto standard
     */
    @ExceptionHandler(ApiException.class)
-   public ResponseEntity<ApiResponse<List<Object>>> apiExceptionHandler(
+   public ResponseEntity<ApiResponseDTO<List<Object>>> apiExceptionHandler(
            ApiException apiException,
            HttpServletRequest req
    ) {
@@ -52,14 +52,14 @@ public final class GlobalExceptionHandler {
               req.getRequestURI()
       );
       
-      ApiResponse<List<Object>> error = ApiResponse.failure(apiException.getMessage());
+      ApiResponseDTO<List<Object>> error = ApiResponseDTO.failure(apiException.getMessage());
       // builder de ResponseEntity
       return ResponseEntity.status(apiException.getStatusCode()).body(error);
    }
    
    // captura los erorres de validate
    @ExceptionHandler(MethodArgumentNotValidException.class)
-   public ResponseEntity<ApiResponse<?>> validationHandler(
+   public ResponseEntity<ApiResponseDTO<?>> validationHandler(
            MethodArgumentNotValidException exception,
            HttpServletRequest req
    ) {
@@ -76,14 +76,14 @@ public final class GlobalExceptionHandler {
               req.getRequestURI()
       );
       
-      ApiResponse<?> error = ApiResponse.failure(errors);
+      ApiResponseDTO<?> error = ApiResponseDTO.failure(errors);
       
       return ResponseEntity.status(400).body(error);
    }
    
    // captura todos los errores generales de la aplicación
    @ExceptionHandler(Exception.class)
-   public ResponseEntity<ApiResponse<List<Object>>> genericHandler(
+   public ResponseEntity<ApiResponseDTO<List<Object>>> genericHandler(
            Exception exception,
            HttpServletRequest req
    ) {
@@ -94,7 +94,7 @@ public final class GlobalExceptionHandler {
               req.getRequestURI()
       );
       
-      ApiResponse<List<Object>> error = ApiResponse.failure(msgService.get("error.server"));
+      ApiResponseDTO<List<Object>> error = ApiResponseDTO.failure(msgService.get("error.server"));
       
       return ResponseEntity.status(500).body(error);
    }
