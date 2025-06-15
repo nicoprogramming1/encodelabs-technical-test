@@ -4,6 +4,7 @@ import com.technical_test.encodelabs.model.Money;
 import com.technical_test.encodelabs.model.Product;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -16,6 +17,7 @@ public final class ProductBuilder {
    private Money price;
    private Integer quantity;
    private boolean isActive;
+   private LocalDateTime updatedAt;
    
    public static Product forRetrievedProduct(
            UUID id,
@@ -23,7 +25,8 @@ public final class ProductBuilder {
            String description,
            Money price,
            Integer quantity,
-           boolean isActive
+           boolean isActive,
+           LocalDateTime updatedAt
    ) {
       return Product.builder()
               .withId(id)
@@ -32,6 +35,7 @@ public final class ProductBuilder {
               .withPrice(price)
               .withQuantity(quantity)
               .withIsActive(isActive)
+              .withUpdatedAt(updatedAt)
               .build();
    }
    
@@ -66,6 +70,11 @@ public final class ProductBuilder {
    
    public ProductBuilder withIsActive(boolean isActive) {
       this.isActive = isActive;
+      return this;
+   }
+   
+   public ProductBuilder withUpdatedAt(LocalDateTime updatedAt) {
+      this.updatedAt = updatedAt;
       return this;
    }
 }
