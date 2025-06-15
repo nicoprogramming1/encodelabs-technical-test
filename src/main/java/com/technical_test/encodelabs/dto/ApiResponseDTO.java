@@ -10,17 +10,17 @@ import java.util.List;
  * @param data con la información a presentar como un array, en caso de no devolver info se asigna []
  * @param <T> genérico, será el tipo de la data (List<ProductResponseDTO> por ej)
  */
-public record ApiResponse<T>(
+public record ApiResponseDTO<T>(
         boolean success,
         String message,
         T data
 ) {
    
-   public static <T> ApiResponse<List<T>> success(String message, List<T> data) {
-      return new ApiResponse<>(true, message, data != null ? data : List.of());
+   public static <T> ApiResponseDTO<List<T>> success(String message, List<T> data) {
+      return new ApiResponseDTO<>(true, message, data != null ? data : List.of());
    }
    
-   public static ApiResponse<List<Object>> failure(String message) {
-      return new ApiResponse<>(false, message, List.of());
+   public static ApiResponseDTO<List<Object>> failure(String message) {
+      return new ApiResponseDTO<>(false, message, List.of());
    }
 }
