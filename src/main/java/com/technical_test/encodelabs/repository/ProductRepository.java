@@ -15,6 +15,8 @@ public interface ProductRepository {
    
    Product save(Product product);   // crea o actualiza
    
+   void saveAll(List<Product> products); // para seeder (podría usarse para crear múltiples products)
+   
    List<Product> findAll();
    
    List<Product> findActiveAll();
@@ -32,4 +34,6 @@ public interface ProductRepository {
    boolean existsById(UUID id);
    
    boolean isActive(UUID id);
+   
+   Long count();
 }

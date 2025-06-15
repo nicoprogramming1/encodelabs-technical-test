@@ -13,6 +13,9 @@ import java.util.UUID;
  * y devueltos al front mediante un DTO de response.
  * Si fueran parte imprescindible de la lógica de negocio, como por ejemplo tener en cuenta
  * la fecha de caducidad o aplicar descuento en base a una fecha, sí deberían modelarse aquí !!
+ * Usa dos patterns creacionales distintos y cada uno resuelve una necesidad:
+ * - Un builder que construye el objeto recuperado desde DB (mapper mediante)
+ * - Un factory method para registrar un nuevo producto o actualizarlo
  */
 @Getter
 public class Product {
@@ -49,6 +52,7 @@ public class Product {
       this.isActive = isActive;  // true pór defecto
    }
    
+   // no voy a validar porque vienen de db (aunque validaciones mínimas no estarían mal ...)
    private Product(ProductBuilder builder) {
       this.id = builder.getId();
       this.name = builder.getName();
@@ -60,11 +64,10 @@ public class Product {
    
    /**
     * Este factory method abstrae del constructor privado y delega a este la responsabilidad
-    * de validar y devolvernos una instancia válida
-    * En una entidad muy grande quizás usaría un builder y lo separaría en su clase propia
+    * de validar y devolvernos una instancia válida de un nuevo registro de producto
     *
     * @param name        de nuevo producto
-    * @param description puede se opcional
+    * @param description puede ser opcional
     * @param priceAmount de tipo BigDecimal para precisión
     * @param quantity    puede ser 0 o positivo
     * @return el Product creado

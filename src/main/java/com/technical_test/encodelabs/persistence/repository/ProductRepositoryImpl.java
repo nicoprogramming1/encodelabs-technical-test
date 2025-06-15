@@ -12,6 +12,7 @@ import java.util.UUID;
 
 /**
  * Esta clase es la implementación (patrón repository) del product repository
+ * es aquí donde actúa el mapper trasnformando a domain o entity según el caso
  */
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
@@ -29,6 +30,12 @@ public class ProductRepositoryImpl implements ProductRepository {
       ProductEntity entityToSave = mapper.toEntity(product);
       ProductEntity savedProduct = jpaRepository.save(entityToSave);
       return mapper.toDomain(savedProduct);
+   }
+   
+   @Override
+   public void saveAll(List<Product> products) {
+      List<ProductEntity> productEntities = products.stream().map(mapper::toEntity).toList();
+      jpaRepository.saveAll(productEntities);
    }
    
    @Override
@@ -75,5 +82,11 @@ public class ProductRepositoryImpl implements ProductRepository {
    @Override
    public boolean isActive(UUID id) {
       return jpaRepository.isActive(id);
+   }
+   
+   // cuenta los productos registrados
+   @Override
+   public Long count() {
+      return jpaRepository.count();
    }
 }

@@ -11,7 +11,7 @@ import java.util.UUID;
 /**
  * Este es el repositorio que se comunica con la DB, separando así responsabilidades
  * Hereda los métodos tradicionales del ORM como save, get, etc
- * Se definen también los custom de ser necesario como el deactivate
+ * Se definen también los custom de ser necesario como los que hay a continuación
  */
 public interface ProductJPARepository extends JpaRepository<ProductEntity, UUID> {
    

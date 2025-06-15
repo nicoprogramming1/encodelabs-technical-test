@@ -6,8 +6,16 @@ import com.technical_test.encodelabs.model.builder.ProductBuilder;
 import com.technical_test.encodelabs.persistence.entity.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.ObjectFactory;
 
+/**
+ * Se encarga de mapear a ProductEntity para guardar el producto en db
+ * Y a domain al recuperar un producto registrado.
+ * Aquí tuve muchos problemas porque MapStruct necesita el constructor público
+ * o setters y me preocupaba romper la encapsulación e inmutabilidad de Product
+ * Lo resolví mediante un builder custom (ProductBuilder) el cual asume
+ * la responsabildiad de crear u producto recuperado de forma segura
+ * sin tener que violar el acceso restringido que debe tener Product.
+ */
 @Mapper(componentModel = "spring", uses = MoneyMapper.class)
 public abstract class ProductMapper {
    

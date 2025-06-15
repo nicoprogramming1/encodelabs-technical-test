@@ -7,6 +7,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * Esta es la representación de la entidad en DB y desde donde
+ * se genera la misma (code-first), cuenta con timestamps que se
+ * auto asignan en la creación / actualización y asume los atributos
+ * del VO Money como campos propios de Product
+ */
 @Entity
 @Table(name = "products")
 @Setter
