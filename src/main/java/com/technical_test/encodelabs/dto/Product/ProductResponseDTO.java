@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public record ProductResponseDTO(
         
-        @Schema(description = "Product unique id", example = "a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1")
+        @Schema(description = "Product unique UUID", example = "a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1")
         UUID id,
         
         @Schema(description = "Product name", example = "Shirt")
