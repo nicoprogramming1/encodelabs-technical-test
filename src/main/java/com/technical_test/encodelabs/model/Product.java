@@ -3,6 +3,7 @@ package com.technical_test.encodelabs.model;
 import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
 import com.technical_test.encodelabs.model.builder.ProductBuilder;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
 
@@ -22,6 +23,7 @@ import java.util.UUID;
  */
 @Slf4j
 @Getter
+@ToString
 public class Product {
    
    private UUID id;
@@ -109,5 +111,4 @@ public class Product {
       return new Product(builder);
    }
    
-   // MÉTODOS PROPIOS QUE NO SE VAN A IMPLEMENTAR por ej AddProduct para agregar stock a un prod registrado, etc
 }
