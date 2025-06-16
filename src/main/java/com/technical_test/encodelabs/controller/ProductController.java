@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -54,7 +55,7 @@ public class ProductController {
    @PostMapping(path = "/register")
    public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> register(@RequestBody @Valid ProductRegisterRequestDTO requestDTO) {
       log.info("POST /register called");
-   
+      
       ProductResponseDTO productResponseDTO = productsService.create(requestDTO);
       ApiResponseDTO<List<ProductResponseDTO>> response =
               ApiResponseDTO.success(msgService.get("product.saved"), List.of(productResponseDTO));
@@ -65,7 +66,7 @@ public class ProductController {
    @Operation(summary = "Retrieve an active product by id")
    @ApiResponse(responseCode = "200", description = "Product retrieved")
    @GetMapping(path = "/{id}")
-   public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> getById(@PathVariable UUID id) {
+   public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> getById(@PathVariable @NotNull UUID id) {
       log.info("GET /{id} called");
       
       ProductResponseDTO productResponseDTO = productsService.retrieveOne(id);
@@ -79,21 +80,43 @@ public class ProductController {
    @ApiResponse(responseCode = "201", description = "Product updated")
    @PutMapping(path = "/update/{id}")
    public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> update(
-           @PathVariable UUID id,
+           @PathVariable @NotNull UUID id,
            @RequestBody @Valid ProductRegisterRequestDTO requestBody
    ) {
+      log.info("PUT update/{id} called");
+      
       ProductResponseDTO productResponseDTO = productsService.updateOne(id, requestBody);
       ApiResponseDTO<List<ProductResponseDTO>> response =
               ApiResponseDTO.success(msgService.get("product.saved"), List.of(productResponseDTO));
       return ResponseEntity.status(201).body(response);
    }
    
+   // podria devolver el nombre quizás envez de id o el producto completo
    @Operation(summary = "Retrieve an active product by id")
    @ApiResponse(responseCode = "200", description = "Product retrieved")
    @DeleteMapping(path = "/{id}")
-   public ResponseEntity<ApiResponseDTO<List<UUID>>> delete(@PathVariable UUID id) {
+   public ResponseEntity<ApiResponseDTO<List<UUID>>> delete(@PathVariable @NotNull UUID id) {
+      log.info("DELETE /{id} called");
+      
       UUID idFromDeleted = productsService.deleteOne(id);   // se que es un poco redundante (ya tenia el id)
-      ApiResponseDTO<List<UUID>> response = ApiResponseDTO.success(msgService.get("product.deleted"), List.of(idFromDeleted));
+      ApiResponseDTO<List<UUID>> response =
+              ApiResponseDTO.success(msgService.get("product.deleted"), List.of(idFromDeleted));
+      return ResponseEntity.ok(response);
+   }
+   
+   // podria devolver solo el id también........
+   @Operation(summary = "Product change status, send in body false to deactivate")
+   @ApiResponse(responseCode = "200", description = "Product status changed")
+   @PatchMapping(path = "/status/{id}")
+   public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> changeStatus(
+           @PathVariable @NotNull UUID id,
+           @RequestBody @Valid boolean status
+   ) {
+      log.info("PATCH /status/{id} called");
+      
+      ProductResponseDTO product = productsService.setStatus(id, status);   // false para deshabilitar
+      ApiResponseDTO<List<ProductResponseDTO>> response =
+              ApiResponseDTO.success(msgService.get("product.status"), List.of(product));
       return ResponseEntity.ok(response);
    }
 }

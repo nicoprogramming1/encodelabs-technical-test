@@ -7,13 +7,14 @@ import com.technical_test.encodelabs.dto.Product.ProductResponseDTO;
 import com.technical_test.encodelabs.exception.BadRequestException;
 import com.technical_test.encodelabs.exception.ResourceNotFoundException;
 import com.technical_test.encodelabs.model.Product;
-import com.technical_test.encodelabs.persistence.entity.ProductEntity;
 import com.technical_test.encodelabs.persistence.mapper.ProductMapper;
 import com.technical_test.encodelabs.persistence.mapper.ProductResponseMapper;
 import com.technical_test.encodelabs.repository.ProductRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.UUID;
 
 @Service
@@ -41,7 +42,7 @@ public class ProductsService {
    
    public ProductResponseDTO create(ProductRegisterRequestDTO requestDTO) {
       boolean exists = productRepository.existsByName(requestDTO.name());
-      if(!exists) throw new BadRequestException("product.nameExists", className);
+      if (!exists) throw new BadRequestException("product.nameExists", className);
       Product newProduct = Product.create(requestDTO);
       Product savedProduct = productRepository.save(newProduct);
       
@@ -75,18 +76,18 @@ public class ProductsService {
     * y este llame al mapper y realice validaciones, aunque también habría que lidiar
     * con el hecho de que Product es inmutable, por lo que devolveríamos una nueva instancia en realidad
     * Lo voy a dejar así como está, no me siento incómodo al respecto tampoco!.
+    *
     * @param requestBody desde el front
     * @return un ProductResponseDTO
     */
+   @Transactional
    public ProductResponseDTO updateOne(UUID id, ProductRegisterRequestDTO requestBody) {
       Product existingProduct = productRepository.findById(id)
               .orElseThrow(() -> new ResourceNotFoundException(msgService.get("product.notFound"), className));
       
       // actualizamos en memoria
       Product productToUpdate = domainMapper.updateFromDTO(requestBody, existingProduct);
-      System.out.println("SAVE received product: " + productToUpdate);
       Product saved = productRepository.save(productToUpdate);
-      System.out.println("SAVE product: " + saved);
       
       log.logInfoAction("product.updated", saved, className);
       return responseMapper.toResponse(saved);
@@ -94,14 +95,32 @@ public class ProductsService {
    
    public UUID deleteOne(UUID id) {
       boolean exists = productRepository.existsById(id);
-      if(exists) {
-      UUID idFromDeleted = productRepository.deleteById(id);
-      log.logInfoAction("product.deleted", idFromDeleted, className);
-      return idFromDeleted;
+      if (exists) {
+         UUID idFromDeleted = productRepository.deleteById(id);
+         log.logInfoAction("product.deleted", idFromDeleted, className);
+         return idFromDeleted;
       } else {
-         log.logInfoAction("product.notFound", id, className);
          throw new ResourceNotFoundException(msgService.get("product.notFound"), className);
       }
+   }
+   
+   /**
+    * un update tan mínimo de solo un campo quizás pueda hacerse en la capa
+    * de repositorio, pero para reafirmar la inmutabilidad de product voy
+    * de esta forma, aunque es mas verbosa (quizás la otra consume menos memoria......)
+    * @param id del product a deshabilitar
+    * @return el producto mapeado a responseDTO
+    */
+   @Transactional
+   public ProductResponseDTO setStatus(UUID id, boolean status) {
+      Product existingProduct = productRepository.findById(id).orElseThrow(() ->
+              new ResourceNotFoundException(msgService.get("product.notFound"), className));
+      
+      Product productToUpdate = existingProduct.enableOrDisable(status);
+      Product updatedProduct = productRepository.save(productToUpdate);
+      
+      log.logInfoAction("product.disabled", updatedProduct, className);
+      return responseMapper.toResponse(updatedProduct);
    }
    
 }
