@@ -111,6 +111,7 @@
                     <include>**/*.properties</include>
                     <include>**/*.yml</include>
                     <include>**/*.yaml</include>
+                    <include>banner.txt</include>
                 </includes>
             </resource>
         </resources>
