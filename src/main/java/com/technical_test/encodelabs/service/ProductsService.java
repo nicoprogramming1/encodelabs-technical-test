@@ -90,9 +90,15 @@ public class ProductsService {
    }
    
    public UUID deleteOne(UUID id) {
+      boolean exists = productRepository.existsById(id);
+      if(exists) {
       UUID idFromDeleted = productRepository.deleteById(id);
       log.logInfoAction("product.deleted", idFromDeleted, className);
       return idFromDeleted;
+      } else {
+         log.logInfoAction("product.notFound", id, className);
+         throw new ResourceNotFoundException(msgService.get("product.notFound"), className);
+      }
    }
    
 }
