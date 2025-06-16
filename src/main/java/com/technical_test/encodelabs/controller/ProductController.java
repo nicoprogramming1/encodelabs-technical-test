@@ -59,7 +59,7 @@ public class ProductController {
       ApiResponseDTO<List<ProductResponseDTO>> response =
               ApiResponseDTO.success(msgService.get("product.saved"), List.of(productResponseDTO));
       
-      return ResponseEntity.ok(response);
+      return ResponseEntity.status(201).body(response);
    }
    
    @Operation(summary = "Retrieve an active product by id")
@@ -75,6 +75,8 @@ public class ProductController {
       return ResponseEntity.ok(response);
    }
    
+   @Operation(summary = "Update a product by id")
+   @ApiResponse(responseCode = "201", description = "Product updated")
    @PutMapping(path = "/update/{id}")
    public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> update(
            @PathVariable UUID id,
@@ -83,6 +85,15 @@ public class ProductController {
       ProductResponseDTO productResponseDTO = productsService.updateOne(id, requestBody);
       ApiResponseDTO<List<ProductResponseDTO>> response =
               ApiResponseDTO.success(msgService.get("product.saved"), List.of(productResponseDTO));
-      return ResponseEntity.ok(response);
+      return ResponseEntity.status(201).body(response);
+   }
+   
+   @Operation(summary = "Retrieve an active product by id")
+   @ApiResponse(responseCode = "200", description = "Product retrieved")
+   @DeleteMapping(path = "/{id}")
+   public ResponseEntity<ApiResponseDTO<List<UUID>>> delete(@PathVariable UUID id) {
+      UUID idFromDeleted = productsService.deleteOne(id);   // se que es un poco redundante (ya tenia el id)
+      ApiResponseDTO<List<UUID>> response = ApiResponseDTO.success(msgService.get("product.deleted"), List.of(idFromDeleted));
+      return ResponseEntity.status(204).body(response);
    }
 }

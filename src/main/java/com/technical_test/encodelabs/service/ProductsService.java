@@ -89,4 +89,10 @@ public class ProductsService {
       return responseMapper.toResponse(saved);
    }
    
+   public UUID deleteOne(UUID id) {
+      UUID idFromDeleted = productRepository.deleteById(id);
+      log.logInfoAction("product.deleted", idFromDeleted, className);
+      return idFromDeleted;
+   }
+   
 }
