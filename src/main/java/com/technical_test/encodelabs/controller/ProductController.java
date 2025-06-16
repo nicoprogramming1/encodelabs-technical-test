@@ -4,11 +4,13 @@ import com.technical_test.encodelabs.dto.ApiResponseDTO;
 import com.technical_test.encodelabs.dto.PaginatedResponseDTO;
 import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
 import com.technical_test.encodelabs.dto.Product.ProductResponseDTO;
+import com.technical_test.encodelabs.dto.Product.ProductUpdateRequestDTO;
 import com.technical_test.encodelabs.service.MessageService;
 import com.technical_test.encodelabs.service.ProductsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -51,7 +53,7 @@ public class ProductController {
    @Operation(summary = "Product register, active by default")
    @ApiResponse(responseCode = "201", description = "Product created")
    @PostMapping(path = "/register")
-   public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> register(@RequestBody ProductRegisterRequestDTO requestDTO) {
+   public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> register(@RequestBody @Valid ProductRegisterRequestDTO requestDTO) {
       log.info("POST /register called");
    
       ProductResponseDTO productResponseDTO = productsService.create(requestDTO);
@@ -71,6 +73,17 @@ public class ProductController {
       ApiResponseDTO<List<ProductResponseDTO>> response =
               ApiResponseDTO.success(msgService.get("product.retrieved"), List.of(productResponseDTO));
       
+      return ResponseEntity.ok(response);
+   }
+   
+   @PutMapping(path = "/update/{id}")
+   public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> update(
+           @PathVariable UUID id,
+           @RequestBody @Valid ProductRegisterRequestDTO requestBody
+   ) {
+      ProductResponseDTO productResponseDTO = productsService.updateOne(id, requestBody);
+      ApiResponseDTO<List<ProductResponseDTO>> response =
+              ApiResponseDTO.success(msgService.get("product.saved"), List.of(productResponseDTO));
       return ResponseEntity.ok(response);
    }
 }

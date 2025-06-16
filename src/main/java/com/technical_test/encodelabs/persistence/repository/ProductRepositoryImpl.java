@@ -6,7 +6,6 @@ import com.technical_test.encodelabs.persistence.entity.ProductEntity;
 import com.technical_test.encodelabs.persistence.mapper.ProductMapper;
 import com.technical_test.encodelabs.repository.ProductRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -37,37 +36,37 @@ public class ProductRepositoryImpl implements ProductRepository {
    }
    
    @Override
-   public ProductEntity save(Product product) {
+   public Product save(Product product) {
       ProductEntity entityToSave = mapper.toEntity(product);
-      return jpaRepository.save(entityToSave);
+      ProductEntity saved = jpaRepository.save(entityToSave);
+      return mapper.toDomain(saved);
    }
    
    @Override
    public void saveAll(List<Product> products) {
-      List<ProductEntity> productEntities = products.stream().map(mapper::toEntity).toList();
-      jpaRepository.saveAll(productEntities);
-      // logueo porqe éste viene del seeder directo no pasa por service
-      log.logInfoAction("product.allSaved", productEntities, className);
+      List<ProductEntity> entities = products.stream().map(mapper::toEntity).toList();
+      jpaRepository.saveAll(entities);
+      log.logInfoAction("product.allSaved", entities, className);
    }
    
    @Override
-   public Page<ProductEntity> findAll(Pageable pageable) {
-      return jpaRepository.findAll(pageable);
+   public Page<Product> findAll(Pageable pageable) {
+      return jpaRepository.findAll(pageable).map(mapper::toDomain);
    }
    
    @Override
-   public List<ProductEntity> findActiveAll() {
-      return jpaRepository.findActiveAll();
+   public List<Product> findActiveAll() {
+      return jpaRepository.findActiveAll().stream().map(mapper::toDomain).toList();
    }
    
    @Override
-   public List<ProductEntity> findInactiveAll() {
-      return jpaRepository.findInactiveAll();
+   public List<Product> findInactiveAll() {
+      return jpaRepository.findInactiveAll().stream().map(mapper::toDomain).toList();
    }
    
    @Override
-   public Optional<ProductEntity> findById(UUID id) {
-      return jpaRepository.findById(id);
+   public Optional<Product> findById(UUID id) {
+      return jpaRepository.findById(id).map(mapper::toDomain);
    }
    
    @Override
@@ -78,12 +77,12 @@ public class ProductRepositoryImpl implements ProductRepository {
    
    @Override
    public UUID deactivateById(UUID id) {
-      return id;
+      return id; // lógica pendiente
    }
    
    @Override
    public UUID reactivateById(UUID id) {
-      return id;
+      return id; // lógica pendiente
    }
    
    @Override
@@ -96,7 +95,6 @@ public class ProductRepositoryImpl implements ProductRepository {
       return jpaRepository.isActive(id);
    }
    
-   // cuenta los productos registrados
    @Override
    public Long count() {
       return jpaRepository.count();
