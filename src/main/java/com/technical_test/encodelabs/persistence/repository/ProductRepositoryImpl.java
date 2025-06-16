@@ -59,31 +59,22 @@ public class ProductRepositoryImpl implements ProductRepository {
    public Page<Product> findAll(Pageable pageable) {
       Page<ProductEntity> productEntities = jpaRepository.findAll(pageable);
       List<Product> products = productEntities.stream().map(mapper::toDomain).toList();
-      Page<Product> productPage = new PageImpl<>(products, pageable, productEntities.getTotalElements());
-      return productPage;
+      return new PageImpl<>(products, pageable, productEntities.getTotalElements());
    }
    
    @Override
    public List<Product> findActiveAll() {
-      List<Product> products = jpaRepository.findActiveAll().stream().map(mapper::toDomain).toList();
-      return products;
+      return jpaRepository.findActiveAll().stream().map(mapper::toDomain).toList();
    }
    
    @Override
    public List<Product> findInactiveAll() {
-      List<Product> products = jpaRepository.findInactiveAll().stream().map(mapper::toDomain).toList();
-      return products;
+      return jpaRepository.findInactiveAll().stream().map(mapper::toDomain).toList();
    }
    
    @Override
-   public Optional<Product> findById(UUID id) {
-      Optional<Product> product = jpaRepository.findById(id).map(mapper::toDomain);
-      /*if(product.isPresent()) {
-         log.info("{}{}", msgService.get("product.retrieved"), product);
-      } else {
-         log.warn("{}{}", msgService.get("product.notFound"), product);
-      }*/
-      return product;
+   public Optional<ProductEntity> findById(UUID id) {
+      return jpaRepository.findById(id);
    }
    
    @Override
