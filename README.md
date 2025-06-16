@@ -38,7 +38,10 @@ Me tomé el atrevimiento de sumar algunas pocas cosas:
 - El atributo price pasa a ser ***Money money***, Value Object con su currency y value para disponer de 
 relaciones y las consecuencias de éstas
 - Product ***Timestamps***
-
+- Respecto al ***update*** de product: voy a implementar un PUT, recibir la data completa y en base a ello un save.
+Esto por que estoy cerca del límite de entrega (dos días) y me parece razonable cumplir primero con la entrega al cliente
+(si fuera un desarrollo real) de un sistema funcional en condiciones. Si hay oportunidad a posteriori, se puede fácilmente
+refactorizar e implementar un PATCH.
 
 # Análisis y diseño de la aplicación
 
