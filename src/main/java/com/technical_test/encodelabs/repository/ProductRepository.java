@@ -19,6 +19,7 @@ public interface ProductRepository {
    UUID deactivateById(UUID id);
    UUID reactivateById(UUID id);
    boolean existsById(UUID id);
+   boolean existsByName(String name);
    boolean isActive(UUID id);
    Long count();
 }

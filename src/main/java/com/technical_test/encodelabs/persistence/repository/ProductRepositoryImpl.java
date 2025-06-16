@@ -91,6 +91,11 @@ public class ProductRepositoryImpl implements ProductRepository {
    }
    
    @Override
+   public boolean existsByName(String name) {
+      return jpaRepository.existsByName(name);
+   }
+   
+   @Override
    public boolean isActive(UUID id) {
       return jpaRepository.isActive(id);
    }
