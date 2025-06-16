@@ -2,9 +2,10 @@ package com.technical_test.encodelabs.service;
 
 import com.technical_test.encodelabs.common.util.LogInfo;
 import com.technical_test.encodelabs.dto.PaginatedResponseDTO;
-import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
+import com.technical_test.encodelabs.dto.Product.ProductRequestDTO;
 import com.technical_test.encodelabs.dto.Product.ProductResponseDTO;
 import com.technical_test.encodelabs.dto.Product.ProductStatusDTO;
+import com.technical_test.encodelabs.dto.Product.ProductStockDTO;
 import com.technical_test.encodelabs.exception.BadRequestException;
 import com.technical_test.encodelabs.exception.ResourceNotFoundException;
 import com.technical_test.encodelabs.model.Product;
@@ -41,7 +42,7 @@ public class ProductsService {
       this.msgService = msgService;
    }
    
-   public ProductResponseDTO create(ProductRegisterRequestDTO requestDTO) {
+   public ProductResponseDTO create(ProductRequestDTO requestDTO) {
       boolean exists = productRepository.existsByName(requestDTO.name());
       if (!exists) throw new BadRequestException("product.nameExists", className);
       Product newProduct = Product.create(requestDTO);
@@ -77,12 +78,13 @@ public class ProductsService {
     * y este llame al mapper y realice validaciones, aunque también habría que lidiar
     * con el hecho de que Product es inmutable, por lo que devolveríamos una nueva instancia en realidad
     * Lo voy a dejar así como está, no me siento incómodo al respecto tampoco!.
+    * Pero probablemente en el resto de los métodos de acción similar los haga en la clase..
     *
     * @param requestBody desde el front
     * @return un ProductResponseDTO
     */
    @Transactional
-   public ProductResponseDTO updateOne(UUID id, ProductRegisterRequestDTO requestBody) {
+   public ProductResponseDTO updateOne(UUID id, ProductRequestDTO requestBody) {
       Product existingProduct = productRepository.findById(id)
               .orElseThrow(() -> new ResourceNotFoundException(msgService.get("product.notFound"), className));
       
@@ -107,7 +109,7 @@ public class ProductsService {
    
    /**
     * un update tan mínimo de solo un campo quizás pueda hacerse en la capa
-    * de repositorio, pero para reafirmar la inmutabilidad de product voy
+    * de repositorio (en ProductEntity directo=, pero para reafirmar la inmutabilidad de product voy
     * de esta forma, aunque es mas verbosa (quizás la otra consume menos memoria......)
     *
     * @param id del product a deshabilitar
@@ -118,11 +120,21 @@ public class ProductsService {
       Product existingProduct = productRepository.findById(id).orElseThrow(() ->
               new ResourceNotFoundException(msgService.get("product.notFound"), className));
       
-      Product productToUpdate = existingProduct.enableOrDisable(status);
+      Product productToUpdate = existingProduct.enableOrDisable(status.status());
       Product updatedProduct = productRepository.save(productToUpdate);
       
       log.logInfoAction("product.disabled", updatedProduct, className);
       return responseMapper.toResponse(updatedProduct);
    }
    
+   public ProductResponseDTO addOrRemoveStock(UUID id, ProductStockDTO stock) {
+      Product existingProduct = productRepository.findById(id).orElseThrow(() ->
+              new ResourceNotFoundException(msgService.get("product.notFound"), className));
+      
+      Product productToUpdate = existingProduct.adjustStock(stock.stock());
+      Product updatedProduct = productRepository.save(productToUpdate);
+      
+      log.logInfoAction("product.stock", updatedProduct, className);
+      return responseMapper.toResponse(updatedProduct);
+   }
 }

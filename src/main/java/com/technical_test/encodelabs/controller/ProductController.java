@@ -2,9 +2,10 @@ package com.technical_test.encodelabs.controller;
 
 import com.technical_test.encodelabs.dto.ApiResponseDTO;
 import com.technical_test.encodelabs.dto.PaginatedResponseDTO;
-import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
+import com.technical_test.encodelabs.dto.Product.ProductRequestDTO;
 import com.technical_test.encodelabs.dto.Product.ProductResponseDTO;
 import com.technical_test.encodelabs.dto.Product.ProductStatusDTO;
+import com.technical_test.encodelabs.dto.Product.ProductStockDTO;
 import com.technical_test.encodelabs.service.MessageService;
 import com.technical_test.encodelabs.service.ProductsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,7 +55,7 @@ public class ProductController {
    @Operation(summary = "Product register, active by default")
    @ApiResponse(responseCode = "201", description = "Product created")
    @PostMapping(path = "/register")
-   public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> register(@RequestBody @Valid ProductRegisterRequestDTO requestDTO) {
+   public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> register(@RequestBody @Valid ProductRequestDTO requestDTO) {
       log.info("POST /register called");
       
       ProductResponseDTO productResponseDTO = productsService.create(requestDTO);
@@ -82,7 +83,7 @@ public class ProductController {
    @PutMapping(path = "/update/{id}")
    public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> update(
            @PathVariable @NotNull UUID id,
-           @RequestBody @Valid ProductRegisterRequestDTO requestBody
+           @RequestBody @Valid ProductRequestDTO requestBody
    ) {
       log.info("PUT update/{id} called");
       
@@ -120,4 +121,21 @@ public class ProductController {
               ApiResponseDTO.success(msgService.get("product.status"), List.of(product));
       return ResponseEntity.ok(response);
    }
+   
+   // dependeindo de si llega un stock positivo o negativo suma o resta
+   @Operation(summary = "Add or remove stock for a product")
+   @ApiResponse(responseCode = "200", description = "Added or removed stock for a product")
+   @PatchMapping(path = "/{id}/stock")
+   public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> updateStock(
+           @RequestBody @Valid ProductStockDTO stock,
+           @PathVariable UUID id
+   ) {
+      log.info("PATCH /{id}/stock called");
+      
+      ProductResponseDTO product = productsService.addOrRemoveStock(id, stock);
+      ApiResponseDTO<List<ProductResponseDTO>> response =
+              ApiResponseDTO.success(msgService.get("product.stock"), List.of(product));
+      return ResponseEntity.ok(response);
+   }
+   
 }
