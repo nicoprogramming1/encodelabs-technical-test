@@ -4,6 +4,7 @@ import com.technical_test.encodelabs.common.util.LogInfo;
 import com.technical_test.encodelabs.dto.PaginatedResponseDTO;
 import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
 import com.technical_test.encodelabs.dto.Product.ProductResponseDTO;
+import com.technical_test.encodelabs.dto.Product.ProductStatusDTO;
 import com.technical_test.encodelabs.exception.BadRequestException;
 import com.technical_test.encodelabs.exception.ResourceNotFoundException;
 import com.technical_test.encodelabs.model.Product;
@@ -108,11 +109,12 @@ public class ProductsService {
     * un update tan mínimo de solo un campo quizás pueda hacerse en la capa
     * de repositorio, pero para reafirmar la inmutabilidad de product voy
     * de esta forma, aunque es mas verbosa (quizás la otra consume menos memoria......)
+    *
     * @param id del product a deshabilitar
     * @return el producto mapeado a responseDTO
     */
    @Transactional
-   public ProductResponseDTO setStatus(UUID id, boolean status) {
+   public ProductResponseDTO setStatus(UUID id, ProductStatusDTO status) {
       Product existingProduct = productRepository.findById(id).orElseThrow(() ->
               new ResourceNotFoundException(msgService.get("product.notFound"), className));
       

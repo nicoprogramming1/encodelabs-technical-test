@@ -4,6 +4,7 @@ import com.technical_test.encodelabs.dto.ApiResponseDTO;
 import com.technical_test.encodelabs.dto.PaginatedResponseDTO;
 import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
 import com.technical_test.encodelabs.dto.Product.ProductResponseDTO;
+import com.technical_test.encodelabs.dto.Product.ProductStatusDTO;
 import com.technical_test.encodelabs.service.MessageService;
 import com.technical_test.encodelabs.service.ProductsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -110,7 +111,7 @@ public class ProductController {
    @PatchMapping(path = "/status/{id}")
    public ResponseEntity<ApiResponseDTO<List<ProductResponseDTO>>> changeStatus(
            @PathVariable @NotNull UUID id,
-           @RequestBody @Valid boolean status
+           @RequestBody @Valid ProductStatusDTO status
    ) {
       log.info("PATCH /status/{id} called");
       

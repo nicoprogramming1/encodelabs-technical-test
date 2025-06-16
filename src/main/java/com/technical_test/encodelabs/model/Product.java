@@ -1,6 +1,7 @@
 package com.technical_test.encodelabs.model;
 
 import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
+import com.technical_test.encodelabs.dto.Product.ProductStatusDTO;
 import com.technical_test.encodelabs.exception.BadRequestException;
 import com.technical_test.encodelabs.model.builder.ProductBuilder;
 import lombok.Getter;
@@ -120,13 +121,14 @@ public class Product {
     * Voy a manejar el cambio de estado del producto aquí, efectuando una u otra
     * operación según el boolean que llega por parámetro, reduciendo código, apelando
     * a DRY y a buenas prácticas
+    *
     * @param status true para activar
     * @return el Product actualizado o la excepción
     */
-   public Product enableOrDisable(boolean status) {
-      if (this.isActive == status) {
+   public Product enableOrDisable(ProductStatusDTO status) {
+      if (this.isActive == status.status()) {
          throw new BadRequestException(
-                 status ? "The product is already active" : "The product is already disabled",
+                 status.status() ? "The product is already active" : "The product is already disabled",
                  className
          );
       }
@@ -137,7 +139,7 @@ public class Product {
               this.description,
               this.price,
               this.quantity,
-              status,
+              status.status(),
               this.updatedAt
       );
    }
