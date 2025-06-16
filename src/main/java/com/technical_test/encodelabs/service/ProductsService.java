@@ -4,6 +4,7 @@ import com.technical_test.encodelabs.common.util.LogInfo;
 import com.technical_test.encodelabs.dto.PaginatedResponseDTO;
 import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
 import com.technical_test.encodelabs.dto.Product.ProductResponseDTO;
+import com.technical_test.encodelabs.exception.BadRequestException;
 import com.technical_test.encodelabs.exception.ResourceNotFoundException;
 import com.technical_test.encodelabs.model.Product;
 import com.technical_test.encodelabs.persistence.entity.ProductEntity;
@@ -39,6 +40,8 @@ public class ProductsService {
    }
    
    public ProductResponseDTO create(ProductRegisterRequestDTO requestDTO) {
+      boolean exists = productRepository.existsByName(requestDTO.name());
+      if(!exists) throw new BadRequestException("product.nameExists", className);
       Product newProduct = Product.create(requestDTO);
       Product savedProduct = productRepository.save(newProduct);
       
