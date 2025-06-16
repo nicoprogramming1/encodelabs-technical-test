@@ -1,7 +1,7 @@
 package com.technical_test.encodelabs.config;
 
 import com.technical_test.encodelabs.common.util.LogInfo;
-import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
+import com.technical_test.encodelabs.dto.Product.ProductRequestDTO;
 import com.technical_test.encodelabs.model.Product;
 import com.technical_test.encodelabs.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -30,10 +30,10 @@ public class ProductSeeder implements CommandLineRunner {
    // separamos responsabilidades
    private List<Product> getSeedProducts() {
       
-      List<ProductRegisterRequestDTO> seedingProducts = List.of(
-              new ProductRegisterRequestDTO("Camisa", "Camiseta de algodón color negro", new BigDecimal("19.99"), 50),
-              new ProductRegisterRequestDTO("Pantalón", "Jean azul", new BigDecimal("40.00"), 10),
-              new ProductRegisterRequestDTO("Zapatillas", "Zapatillas de lona blancas", new BigDecimal("15.50"), 100)
+      List<ProductRequestDTO> seedingProducts = List.of(
+              new ProductRequestDTO("Camisa", "Camiseta de algodón color negro", new BigDecimal("19.99"), 50),
+              new ProductRequestDTO("Pantalón", "Jean azul", new BigDecimal("40.00"), 10),
+              new ProductRequestDTO("Zapatillas", "Zapatillas de lona blancas", new BigDecimal("15.50"), 100)
       );
       
       List<Product> products = seedingProducts.stream().map(Product::create).toList();

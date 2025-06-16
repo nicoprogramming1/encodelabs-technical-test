@@ -1,6 +1,6 @@
 package com.technical_test.encodelabs.persistence.mapper;
 
-import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
+import com.technical_test.encodelabs.dto.Product.ProductRequestDTO;
 import com.technical_test.encodelabs.model.Money;
 import com.technical_test.encodelabs.model.Product;
 import com.technical_test.encodelabs.model.builder.ProductBuilder;
@@ -48,7 +48,7 @@ public abstract class ProductMapper {
     * @param retrievedProduct como resultado del mapping
     * @return un Product con info actualizada
     */
-   public Product updateFromDTO(ProductRegisterRequestDTO productFromDto, Product retrievedProduct) {
+   public Product updateFromDTO(ProductRequestDTO productFromDto, Product retrievedProduct) {
       BigDecimal priceAmount = new BigDecimal(String.valueOf(productFromDto.priceAmount()));
       Money price = new Money(priceAmount);
       System.out.println("SAVE received product: " + retrievedProduct);

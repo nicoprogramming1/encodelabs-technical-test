@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * el record crea boilerplate automáticamente, podría ponerle msg a cada validación o x defecto
  * Validamos mediante jakarta validation cada input
  */
-public record ProductRegisterRequestDTO(
+public record ProductRequestDTO(
         @NotNull
         @Size(min = 3, max = 100)
         @Schema(description = "Product name", example = "Shirt")
