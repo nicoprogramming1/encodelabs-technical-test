@@ -4,7 +4,6 @@ import com.technical_test.encodelabs.dto.ApiResponseDTO;
 import com.technical_test.encodelabs.dto.PaginatedResponseDTO;
 import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
 import com.technical_test.encodelabs.dto.Product.ProductResponseDTO;
-import com.technical_test.encodelabs.dto.Product.ProductUpdateRequestDTO;
 import com.technical_test.encodelabs.service.MessageService;
 import com.technical_test.encodelabs.service.ProductsService;
 import io.swagger.v3.oas.annotations.Operation;
