@@ -42,6 +42,7 @@ relaciones y las consecuencias de éstas
 Esto por que estoy cerca del límite de entrega (dos días) y me parece razonable cumplir primero con la entrega al cliente
 (si fuera un desarrollo real) de un sistema funcional en condiciones. Si hay oportunidad a posteriori, se puede fácilmente
 refactorizar e implementar un PATCH.
+- No hay integración entre Jira y el repositorio de GitHub
 
 # Análisis y diseño de la aplicación
 
