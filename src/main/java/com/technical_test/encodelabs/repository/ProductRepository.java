@@ -1,6 +1,7 @@
 package com.technical_test.encodelabs.repository;
 
 import com.technical_test.encodelabs.model.Product;
+import com.technical_test.encodelabs.persistence.entity.ProductEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -25,7 +26,7 @@ public interface ProductRepository {
    
    List<Product> findInactiveAll();
    
-   Optional<Product> findById(UUID id);
+   Optional<ProductEntity> findById(UUID id);
    
    UUID deleteById(UUID id);
    
