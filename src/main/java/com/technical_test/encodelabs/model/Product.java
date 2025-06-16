@@ -1,6 +1,7 @@
 package com.technical_test.encodelabs.model;
 
 import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
+import com.technical_test.encodelabs.exception.BadRequestException;
 import com.technical_test.encodelabs.model.builder.ProductBuilder;
 import lombok.Getter;
 import lombok.ToString;
@@ -33,6 +34,8 @@ public class Product {
    private Integer quantity;
    private boolean isActive;
    private LocalDateTime updatedAt;
+   
+   private final String className = this.getClass().getName();
    
    private Product(
            UUID id,
@@ -111,4 +114,31 @@ public class Product {
       return new Product(builder);
    }
    
+   // TODO refactor: en vez de solo deactivate() deberia manejar tmb activate
+   
+   /**
+    * Voy a manejar el cambio de estado del producto aquí, efectuando una u otra
+    * operación según el boolean que llega por parámetro, reduciendo código, apelando
+    * a DRY y a buenas prácticas
+    * @param status true para activar
+    * @return el Product actualizado o la excepción
+    */
+   public Product enableOrDisable(boolean status) {
+      if (this.isActive == status) {
+         throw new BadRequestException(
+                 status ? "The product is already active" : "The product is already disabled",
+                 className
+         );
+      }
+      
+      return ProductBuilder.forRetrievedProduct(
+              this.id,
+              this.name,
+              this.description,
+              this.price,
+              this.quantity,
+              status,
+              this.updatedAt
+      );
+   }
 }
