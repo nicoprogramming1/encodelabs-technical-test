@@ -16,15 +16,15 @@ import java.util.UUID;
  */
 public interface ProductRepository {
    
-   Product save(Product product);   // crea o actualiza
+   ProductEntity save(Product product);   // crea o actualiza
    
    void saveAll(List<Product> products); // para seeder (podría usarse para crear múltiples products)
    
-   Page<Product> findAll(Pageable pageable);
+   Page<ProductEntity> findAll(Pageable pageable);
    
-   List<Product> findActiveAll();
+   List<ProductEntity> findActiveAll();
    
-   List<Product> findInactiveAll();
+   List<ProductEntity> findInactiveAll();
    
    Optional<ProductEntity> findById(UUID id);
    

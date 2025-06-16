@@ -37,11 +37,9 @@ public class ProductRepositoryImpl implements ProductRepository {
    }
    
    @Override
-   public Product save(Product product) {
+   public ProductEntity save(Product product) {
       ProductEntity entityToSave = mapper.toEntity(product);
-      ProductEntity savedProduct = jpaRepository.save(entityToSave);
-      
-      return mapper.toDomain(savedProduct);
+      return jpaRepository.save(entityToSave);
    }
    
    @Override
@@ -52,24 +50,19 @@ public class ProductRepositoryImpl implements ProductRepository {
       log.logInfoAction("product.allSaved", productEntities, className);
    }
    
-   // este se me complicó muchísimo y tiene mucha IA (no me gusta)
-   // porque no sabía como mapear tan complejo, no había mapeado antes en Spring
-   // y me sobrepasé, aunque aprendí cositas
    @Override
-   public Page<Product> findAll(Pageable pageable) {
-      Page<ProductEntity> productEntities = jpaRepository.findAll(pageable);
-      List<Product> products = productEntities.stream().map(mapper::toDomain).toList();
-      return new PageImpl<>(products, pageable, productEntities.getTotalElements());
+   public Page<ProductEntity> findAll(Pageable pageable) {
+      return jpaRepository.findAll(pageable);
    }
    
    @Override
-   public List<Product> findActiveAll() {
-      return jpaRepository.findActiveAll().stream().map(mapper::toDomain).toList();
+   public List<ProductEntity> findActiveAll() {
+      return jpaRepository.findActiveAll();
    }
    
    @Override
-   public List<Product> findInactiveAll() {
-      return jpaRepository.findInactiveAll().stream().map(mapper::toDomain).toList();
+   public List<ProductEntity> findInactiveAll() {
+      return jpaRepository.findInactiveAll();
    }
    
    @Override

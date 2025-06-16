@@ -41,17 +41,19 @@ public class ProductsService {
    
    public ProductResponseDTO create(ProductRegisterRequestDTO requestDTO) {
       Product newProduct = Product.create(requestDTO);
-      Product savedPoduct = productRepository.save(newProduct);
+      ProductEntity savedProductEntity = productRepository.save(newProduct);
+      Product savedProduct = domainMapper.toDomain(savedProductEntity);
       
-      log.logInfoAction("product.saved", savedPoduct, className);
-      return responseMapper.toResponse(savedPoduct);
+      log.logInfoAction("product.saved", savedProduct, className);
+      return responseMapper.toResponse(savedProduct);
    }
    
    public PaginatedResponseDTO<ProductResponseDTO> retrieveAll(Pageable pageable) {
-      Page<Product> page = productRepository.findAll(pageable);
-      PaginatedResponseDTO<ProductResponseDTO> response = responseMapper.toPaginatedResponse(page);
+      Page<ProductEntity> pageEntity = productRepository.findAll(pageable);
+      Page<Product> pageProduct = pageEntity.map(domainMapper::toDomain);
+      PaginatedResponseDTO<ProductResponseDTO> response = responseMapper.toPaginatedResponse(pageProduct);
       
-      log.logInfoAction("product.list", page, className);
+      log.logInfoAction("product.list", pageProduct, className);
       return response;
    }
    
