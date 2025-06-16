@@ -94,6 +94,6 @@ public class ProductController {
    public ResponseEntity<ApiResponseDTO<List<UUID>>> delete(@PathVariable UUID id) {
       UUID idFromDeleted = productsService.deleteOne(id);   // se que es un poco redundante (ya tenia el id)
       ApiResponseDTO<List<UUID>> response = ApiResponseDTO.success(msgService.get("product.deleted"), List.of(idFromDeleted));
-      return ResponseEntity.status(204).body(response);
+      return ResponseEntity.ok(response);
    }
 }
