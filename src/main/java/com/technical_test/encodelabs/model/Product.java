@@ -1,7 +1,6 @@
 package com.technical_test.encodelabs.model;
 
-import com.technical_test.encodelabs.dto.Product.ProductRegisterRequestDTO;
-import com.technical_test.encodelabs.dto.Product.ProductStatusDTO;
+import com.technical_test.encodelabs.dto.Product.ProductRequestDTO;
 import com.technical_test.encodelabs.exception.BadRequestException;
 import com.technical_test.encodelabs.model.builder.ProductBuilder;
 import lombok.Getter;
@@ -93,7 +92,7 @@ public class Product {
     * @param dto de registro de un nuevo producto
     * @return el Product creado
     */
-   public static Product create(ProductRegisterRequestDTO dto) {
+   public static Product create(ProductRequestDTO dto) {
       System.out.println("CREATE: " + dto.priceAmount());
       
       UUID id = UUID.randomUUID();
@@ -125,10 +124,10 @@ public class Product {
     * @param status true para activar
     * @return el Product actualizado o la excepción
     */
-   public Product enableOrDisable(ProductStatusDTO status) {
-      if (this.isActive == status.status()) {
+   public Product enableOrDisable(boolean status) {
+      if (this.isActive == status) {
          throw new BadRequestException(
-                 status.status() ? "The product is already active" : "The product is already disabled",
+                 status ? "The product is already active" : "The product is already disabled",
                  className
          );
       }
@@ -139,7 +138,25 @@ public class Product {
               this.description,
               this.price,
               this.quantity,
-              status.status(),
+              status,
+              this.updatedAt
+      );
+   }
+   
+   public Product adjustStock(int stock) {
+      int newStock = this.quantity + stock;
+      
+      if (newStock < 0) {
+         throw new BadRequestException("Stock cant be negative", className);
+      }
+      
+      return ProductBuilder.forRetrievedProduct(
+              this.id,
+              this.name,
+              this.description,
+              this.price,
+              newStock,
+              this.isActive,
               this.updatedAt
       );
    }
