@@ -17,6 +17,7 @@ import java.util.UUID;
 @Table(name = "products")
 @Setter
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
