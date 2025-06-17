@@ -12,7 +12,17 @@ until [ "$(docker inspect -f '{{.State.Health.Status}}' encodelabs-api)" == "hea
   sleep 5
 done
 
-echo "   APP Running"
+echo "Corriendo pruebas de integración Postman con Newman..."
+docker compose up --abort-on-container-exit postman-tests
+
+if [ $? -ne 0 ]; then
+  echo "Las pruebas fallaron"
+  exit 1
+else
+  echo "Las pruebas pasaron correctamente."
+fi
+
+echo "   APP Running!!"
 echo ""
 echo "   • API URL: http://localhost:8080/api"
 echo "   • Swagger UI: http://localhost:8080/api/swagger-ui.html"
