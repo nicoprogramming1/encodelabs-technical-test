@@ -9,7 +9,6 @@ import java.util.List;
  * @param message de la operación
  * @param data con la información a presentar como un array, en caso de no devolver info se asigna []
  * @param <T> genérico, será el tipo de la data (List<ProductResponseDTO> por ej)
- *
  *           Quizás debería haber hecho que el List<> de la data se genere acá y no tener
  *           que hacer List.of por todas partes antes de enviarlo aquí, estoy repitiendo codigo
  */

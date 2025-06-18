@@ -12,7 +12,7 @@ import java.util.UUID;
  * Este es el repositorio que se comunica con la DB, separando así responsabilidades
  * Hereda los métodos tradicionales del ORM como save, get, etc
  * Se definen también los custom de ser necesario como los que hay a continuación
- *
+ * ->
  * Al final los find de listas inactivas o activas o hacer una separación según estas
  * necesidades de negocio no fueron implementadas, sólo el finAll general
  * Pero es muy similar y aquí incluso dejo como sería la query
