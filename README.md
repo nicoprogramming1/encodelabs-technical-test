@@ -19,6 +19,7 @@ Este proyecto usa Docker para construir y ejecutar la aplicación Spring Boot.
 - Docker service instalado y corriendo
 - Terminal tipo Bash (Linux, Mac o Git Bash en Windows)
 - IntelliJ IDE
+- GIT
 
 ## Levantar la app
 
@@ -86,14 +87,15 @@ Al final del docuemnto, junto a la retrospectiva, se presentará el ***Burndown 
 
 | ***Product***
 - id (UUID): autogenerado de 32 caracteres
-- name (String): mínimo 3 caracteres, máximo 100 y no puede ser null o espacios
+- name (String): mínimo 3 caracteres, máximo 100
 - description (String): máximo 300 caracteres, permite null
 - money (Money): value object Money
 - quantity (Integer): debe ser un número positivo hasta 1000 (por establecer un límite de negocio)
 
 | ***Money***
-- currency (Currency): por default USD no se va a implementar múltiples monedas
-- value (Double): debe ser un número positivo
+- currencyCode (Currency): por default USD no se va a implementar múltiples monedas
+- priceAmount (BigDecimal): debe ser un número positivo (BigDecimal por precisión)
+
 
 # Decisiones técnicas
 
