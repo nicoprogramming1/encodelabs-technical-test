@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -29,6 +30,24 @@ public final class GlobalExceptionHandler {
    @Autowired
    public GlobalExceptionHandler(MessageService msgService) {
       this.msgService = msgService;
+   }
+   
+   // para errores por tipo incorrecto de atributos en la req -> code status 400
+   @ExceptionHandler(HttpMessageNotReadableException.class)
+   public ResponseEntity<ApiResponseDTO<List<Object>>> handleDeserializationError(
+           HttpMessageNotReadableException ex,
+           HttpServletRequest req
+   ) {
+      int status = 400;
+      
+      ApiErrorLogger.errorLog(
+              ex.getMostSpecificCause().getMessage(),
+              status,
+              req.getRequestURI()
+      );
+      
+      ApiResponseDTO<List<Object>> error = ApiResponseDTO.failure(msgService.get("error.json"));
+      return ResponseEntity.status(status).body(error);
    }
    
    /**
@@ -87,7 +106,7 @@ public final class GlobalExceptionHandler {
            Exception exception,
            HttpServletRequest req
    ) {
-      
+      log.error("Excepción genérica atrapada:", exception);
       ApiErrorLogger.errorLog(
               msgService.get("error.server"),
               500,
