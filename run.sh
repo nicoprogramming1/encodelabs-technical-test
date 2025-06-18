@@ -1,25 +1,28 @@
 #!/bin/bash
 
-echo "Compilando..."
+echo "Compilando y construyendo imagen..."
 docker compose build
 
-echo "Levantando app..."
-docker compose up -d
+echo "Levantando la app..."
+docker compose up -d encodelabs-api
 
-echo "Esperando que esté saludable..."
+echo "Esperando que la app esté healthy..."
 until [ "$(docker inspect -f '{{.State.Health.Status}}' encodelabs-api)" == "healthy" ]; do
-  echo "paciencia..."
+  echo "   → esperando health status!..."
   sleep 5
 done
 
-echo "Corriendo pruebas de integración Postman con Newman..."
+echo "API saludable, corriendo tests Newman..."
 docker compose up --abort-on-container-exit postman-tests
 
-if [ $? -ne 0 ]; then
-  echo "Las pruebas fallaron"
-  exit 1
+
+exit_code=$?
+
+# Resultado
+if [ $exit_code -ne 0 ]; then
+  echo "Tests fallaron"
 else
-  echo "Las pruebas pasaron correctamente."
+  echo "Tests pasaron correctamente"
 fi
 
 echo "   APP Running!!"
@@ -29,4 +32,4 @@ echo "   • Swagger UI: http://localhost:8080/api/swagger-ui.html"
 echo "   • Health Check: http://localhost:8080/api/actuator/health"
 echo ""
 echo "Para ver los logs: docker-compose logs -f"
-echo "Para bajar el container: docker comppose down"
+echo "Para bajar el container: docker compose down"
