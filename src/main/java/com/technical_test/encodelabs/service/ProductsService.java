@@ -127,6 +127,7 @@ public class ProductsService {
       return responseMapper.toResponse(updatedProduct);
    }
    
+   // en función de recibir stock positivo o negativo en la req adiere o sustrae quantity
    public ProductResponseDTO addOrRemoveStock(UUID id, ProductStockDTO stock) {
       Product existingProduct = productRepository.findById(id).orElseThrow(() ->
               new ResourceNotFoundException(msgService.get("product.notFound"), className));

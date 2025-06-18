@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+// para agregar o sustraer stock de un producto
 public record ProductStockDTO(
         @Min(value = -1000)
         @Max(value = 1000)

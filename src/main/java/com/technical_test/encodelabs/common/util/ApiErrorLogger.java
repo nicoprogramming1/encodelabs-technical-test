@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 /**
  * Esta clase va a ser reutilizada en los exception handlers
  * por motivos de cumplir con el principio DRY se separa
+ * El formato gráfico de response se la pedí a la IA (tengo mal gusto :D)
  */
 @Slf4j
 public final class ApiErrorLogger {
