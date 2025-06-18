@@ -1,0 +1,2135 @@
+{
+	"info": {
+		"_postman_id": "11225ef1-fb2f-42b3-bb72-ceb948f54da3",
+		"name": "Encodelabs-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39634394"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product short name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request para nombre menor a 3 char\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"XX\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product long name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request para nombre mayor a 100 char\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"ProductoDePruebaNombreExtremadamenteLargoParaVerificarElLimiteMaximoDeCaracteresPermitidosEnElCampoName!\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product name null",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request para nombre null\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": null,\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product name blank",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request para nombre espacios en blanco\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"      \",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product without name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request por no enviar name\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product long description",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request para description mayor a 300 char\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Sombrero\",\r\n  \"description\": \"Este producto es parte de la línea de artículos premium diseñados para ofrecer máxima calidad, durabilidad y desempeño. Perfecto para uso diario o profesional, cuenta con materiales de primera y un diseño moderno que se adapta a múltiples necesidades. Ideal para tests larguísimos que exceden el límite impuesto artificialmente para asegurar que la validación sea correctamente ejecutada.\",\r\n  \"priceAmount\": 10.50,\r\n  \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product price zero or less",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request para price < 0.01\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sombrero\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 0,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product price null",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request por enviar price null\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre correcto\",\r\n    \"description\": \"Nueva descripción correcta\",\r\n    \"price\": null,\r\n    \"quantity\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product price non-number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request por price distinto a número\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre correcto\",\r\n    \"description\": \"Nueva descripción correcta\",\r\n    \"price\": true,\r\n    \"quantity\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product without price",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request por no enviar price\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre correcto\",\r\n    \"description\": \"Nueva descripción correcta\",\r\n    \"quantity\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product negative quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request para quantity negativo\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sombrero\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": -10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product null quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request para quantity null\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sombrero\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product quantity non-number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error para nombre menor a 3 char\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sombrero\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product without quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request para quantity no enviado\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sombrero\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 201 || pm.response.code === 200) {\r",
+							"    let json = pm.response.json();\r",
+							"    \r",
+							"    if (json && json.data && Array.isArray(json.data) && json.data[0] && json.data[0].id) {\r",
+							"        pm.collectionVariables.set(\"id\", json.data[0].id);\r",
+							"    } else {\r",
+							"        console.warn(\"⚠️ Respuesta no contiene data[0].id como se esperaba\");\r",
+							"    }\r",
+							"} else {\r",
+							"    console.warn(\"⚠️ No se establece ID: status = \" + pm.response.code);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sombrero\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/register",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product short name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error para nombre menor a 3 char\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"XX\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product long name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error para name mayor a 100 char\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"ProductoDePruebaNombreExtremadamenteLargoParaVerificarElLimiteMaximoDeCaracteresPermitidosEnElCampoName!\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product name null",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error para nombre null\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": null,\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product name blank",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error para nombre espacios en blanco\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"   \",\r\n    \"description\": \"Nueva descripción correcta\",\r\n    \"priceAmount\": 30.20,\r\n    \"quantity\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product without name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error por no enviar nombre\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Nueva descripción correcta\",\r\n    \"priceAmount\": 30.20,\r\n    \"quantity\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product long description",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error para descripción mayor a 300chars\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sombrero\",\r\n    \"description\": \"Este producto es parte de la línea de artículos premium diseñados para ofrecer máxima calidad, durabilidad y desempeño. Perfecto para uso diario o profesional, cuenta con materiales de primera y un diseño moderno que se adapta a múltiples necesidades. Ideal para tests largos.!!! Este texto es adicional para sobrepasar los 300 caracteres y forzar la validación.\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product price zero or less",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error para price < 0.01\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sombrero\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 0,\r\n    \"quantity\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product price null",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error por enviar price null\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre correcto\",\r\n    \"description\": \"Nueva descripción correcta\",\r\n    \"price\": null,\r\n    \"quantity\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product price non-number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error por price distinto a número\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre correcto\",\r\n    \"description\": \"Nueva descripción correcta\",\r\n    \"price\": true,\r\n    \"quantity\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product without price",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error por no enviar price\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre correcto\",\r\n    \"description\": \"Nueva descripción correcta\",\r\n    \"quantity\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product negative quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error por cantidad negativa\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sombrero\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": -10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product null quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error para quantity null\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sombrero\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product quantity non-number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error para quantity no numérico\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sombrero\",\r\n    \"description\": \"Sombreo de paja\",\r\n    \"priceAmount\": 10.50,\r\n    \"quantity\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product without quantity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error por no enviar quantity\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre correcto\",\r\n    \"description\": \"Nueva descripción correcta\",\r\n    \"priceAmount\": 30.20\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre correcto\",\r\n    \"description\": \"Nueva descripción correcta\",\r\n    \"priceAmount\": 30.20,\r\n    \"quantity\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add mayor than limit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request por sobrepasar el límite de stock\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stock\": 10000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}/stock",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}",
+						"stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add null",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request por enviar null\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stock\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}/stock",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}",
+						"stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add non-number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 500 Internal Server Error por stock no numérico\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stock\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}/stock",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}",
+						"stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stock\": 100 \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}/stock",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}",
+						"stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sustract",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stock\": -20\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}/stock",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}",
+						"stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sustract denegado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request por intentar sustraer más del stock actual\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stock\": -500 \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}/stock",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}",
+						"stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deactivate",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/status/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"status",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deactivate denegado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request por intentar desactivar un producto inactivo\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/status/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"status",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activate",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/status/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"status",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activate denegado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 400 Bad Request por intentar activar un producto activo\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/status/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"status",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 404 Not Found por intentar borrar un producto inexistente\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 404 Not Found por intentar recuperar un producto inexistente\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sustract not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 404 Not Found por intentar sustraer de un producto inexistente\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stock\": -75 \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}/stock",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}",
+						"stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 404 Not Found por intentar agregar a un producto inexistente\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stock\": 5 \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/{{id}}/stock",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"{{id}}",
+						"stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deactivate not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 404 Not Found por intentar desactivar a un producto inexistente\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/status/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"status",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activate not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 404 Not Found por intentar activar un producto inexistente\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/status/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"status",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Debe responder 404 Not Found por intentar modificar un producto inexistente\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"adb\",\r\n    \"description\": \"Zapatillas de lobbb\",\r\n    \"priceAmount\": 0.1,\r\n    \"quantity\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products/update/{{id}}",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://encodelabs-api:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"encodelabs-api"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
