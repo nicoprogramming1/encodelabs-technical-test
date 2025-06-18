@@ -44,7 +44,7 @@ public class ProductsService {
    
    public ProductResponseDTO create(ProductRequestDTO requestDTO) {
       boolean exists = productRepository.existsByName(requestDTO.name());
-      if (!exists) throw new BadRequestException("product.nameExists", className);
+      if (exists) throw new BadRequestException(msgService.get("product.nameExists"), className);
       Product newProduct = Product.create(requestDTO);
       Product savedProduct = productRepository.save(newProduct);
       
