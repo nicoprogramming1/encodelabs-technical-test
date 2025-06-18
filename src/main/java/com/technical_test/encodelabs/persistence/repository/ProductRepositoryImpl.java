@@ -76,16 +76,6 @@ public class ProductRepositoryImpl implements ProductRepository {
    }
    
    @Override
-   public UUID deactivateById(UUID id) {
-      return id; // lógica pendiente
-   }
-   
-   @Override
-   public UUID reactivateById(UUID id) {
-      return id; // lógica pendiente
-   }
-   
-   @Override
    public boolean existsById(UUID id) {
       return jpaRepository.existsById(id);
    }

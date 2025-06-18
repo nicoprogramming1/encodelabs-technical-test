@@ -16,8 +16,6 @@ public interface ProductRepository {
    List<Product> findInactiveAll();
    Optional<Product> findById(UUID id);
    UUID deleteById(UUID id);
-   UUID deactivateById(UUID id);
-   UUID reactivateById(UUID id);
    boolean existsById(UUID id);
    boolean existsByName(String name);
    boolean isActive(UUID id);
