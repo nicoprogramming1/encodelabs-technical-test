@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * Validamos mediante jakarta validation cada input
  */
 public record ProductRequestDTO(
-        @NotNull
+        @NotBlank
         @Size(min = 3, max = 100)
         @Schema(description = "Product name", example = "Shirt")
         String name,
