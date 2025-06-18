@@ -32,23 +32,6 @@ public final class GlobalExceptionHandler {
       this.msgService = msgService;
    }
    
-   // para errores por tipo incorrecto de atributos en la req -> code status 400
-   @ExceptionHandler(HttpMessageNotReadableException.class)
-   public ResponseEntity<ApiResponseDTO<List<Object>>> handleDeserializationError(
-           HttpMessageNotReadableException ex,
-           HttpServletRequest req
-   ) {
-      int status = 400;
-      
-      ApiErrorLogger.errorLog(
-              ex.getMostSpecificCause().getMessage(),
-              status,
-              req.getRequestURI()
-      );
-      
-      ApiResponseDTO<List<Object>> error = ApiResponseDTO.failure(msgService.get("error.json"));
-      return ResponseEntity.status(status).body(error);
-   }
    
    /**
     * Captura los errores de tipo ApiException
