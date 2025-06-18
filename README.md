@@ -41,6 +41,7 @@ Esto en general hará automáticamente lo siguiente:
 - Levanta los contenedores definidos en docker-compose.yml
 - Realiza comprobaciones de salud (health checks) para verificar que los servicios estén activos
 - Levantar la app
+- Insertar 3 productos correctamente (seeding)
 - Ejecutar los tests automáticos con newman
 - Dejar la app corriendo para uso
 
