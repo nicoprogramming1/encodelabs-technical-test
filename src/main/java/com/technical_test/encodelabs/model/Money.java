@@ -2,6 +2,7 @@ package com.technical_test.encodelabs.model;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
+import lombok.ToString;
 import org.apache.commons.lang3.Validate;
 
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import java.util.Currency;
  * un add o operaciones matemáticas con sus validaciones, etc..
  */
 @Getter
+@ToString
 @Embeddable // permitimos que sea embebido en Product
 public final class Money {
    
