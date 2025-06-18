@@ -18,8 +18,17 @@ Este proyecto usa Docker para construir y ejecutar la aplicación Spring Boot.
 
 - Docker service instalado y corriendo
 - Terminal tipo Bash (Linux, Mac o Git Bash en Windows)
+- IntelliJ IDE
 
 ## Levantar la app
+
+Clonar el repositorio desde tu terminal en el directorio que quieras:
+
+```bash
+git clone https://github.com/nicoprogramming1/encodelabs-technical-test.git
+```
+
+No necesitás instalar manualmente dependencias, compilar ni correr la app desde IntelliJ. Todo se hace dentro de Docker.
 
 Desde la raíz del proyecto, ejecutar en Bash / Git Bash:
 
