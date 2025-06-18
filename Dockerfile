@@ -36,7 +36,7 @@ USER appuser
 EXPOSE 8080
 
 # Health
-HEALTHCHECK --interval=30s --timeout=3s --start-period=20s --retries=3 \
+HEALTHCHECK --interval=10s --timeout=7s --start-period=15s --retries=3 \
   CMD curl -f http://localhost:8080/api/actuator/health || exit 1
 
 # Start !!!
