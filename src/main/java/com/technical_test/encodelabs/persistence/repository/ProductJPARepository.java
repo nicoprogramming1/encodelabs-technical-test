@@ -23,8 +23,7 @@ public interface ProductJPARepository extends JpaRepository<ProductEntity, UUID>
    @Query("SELECT p FROM ProductEntity p WHERE p.isActive = false")
    List<ProductEntity> findInactiveAll();
    
-   @Query("SELECT p FROM ProductEntity p WHERE p.name = :name")
-   boolean existsByName(@Param("id") String name);
+   boolean existsByName(String name);
    
    @Query("SELECT p.isActive FROM ProductEntity p WHERE p.id = :id")
    boolean isActive(@Param("id") UUID id);
