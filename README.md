@@ -5,18 +5,18 @@ This repository is for a Encodelabs technical-test.
 ### Author: Nicolás W.
 
 Este documento detalla el análisis, desarrollo y las decisiones técnicas del presente proceso de selección.
-El documento en su totalidad (excepto el formato del stack tecnológico por IA) fue escrito a mano.
+El documento en su totalidad fue escrito a mano.
 
 
 # RUN EncodelabsApplication
 
 ### Levantar la aplicación con Docker
 
-Este proyecto usa Docker / Docker Compose para construir y ejecutar la aplicación Spring Boot.
+Este proyecto usa Docker para construir y ejecutar la aplicación Spring Boot.
 
 ### Requisitos
 
-- Docker instalado y corriendo (Docker Compose)
+- Docker service instalado y corriendo
 - Terminal tipo Bash (Linux, Mac o Git Bash en Windows)
 
 ## Levantar la app
@@ -27,7 +27,15 @@ Desde la raíz del proyecto, ejecutar en Bash / Git Bash:
 chmod +x run.sh      # (Solo la primera vez en Linux)
 ./run.sh
 ```
+Esto en general hará automáticamente lo siguiente:
+- Levanta los contenedores definidos en docker-compose.yml
+- Realiza comprobaciones de salud (health checks) para verificar que los servicios estén activos
+- Levantar la app
+- Ejecutar los tests automáticos con newman
+- Dejar la app corriendo para uso
 
+Para detenerla presionar "Ctrl + C" y remover la instancia de docker que generó con "docker compose down"
+También podrían simplemente detener el container en vez de removerlo.
 
 ### A tener en cuenta!
 
@@ -69,13 +77,13 @@ Al final del docuemnto, junto a la retrospectiva, se presentará el ***Burndown 
 
 | ***Product***
 - id (UUID): autogenerado de 32 caracteres
-- name (String): mínimo 3 caracteres, máximo 50 y no puede ser null o espacios
-- description (String): máximo 200 caracteres, permite null
+- name (String): mínimo 3 caracteres, máximo 100 y no puede ser null o espacios
+- description (String): máximo 300 caracteres, permite null
 - money (Money): value object Money
-- quantity (Integer): debe ser un número positivo
+- quantity (Integer): debe ser un número positivo hasta 1000 (por establecer un límite de negocio)
 
 | ***Money***
-- currency (Currency): acepta valores "USD" | "ARS"
+- currency (Currency): por default USD no se va a implementar múltiples monedas
 - value (Double): debe ser un número positivo
 
 # Decisiones técnicas
@@ -169,6 +177,13 @@ respuestas, como del proyecto en general y su autoría, agrupación de paths rel
 ***El código está SOBRE-COMENTADO en detalle, esto por razones de ser una prueba técnica, de lo contrario
 me limitaría a la mínima expresión necesaria para transmitir de forma clara y concisa.***
 
+***Actualización 18/6***: Swagger UI no funciona aún, en una instancia temprana del proyecto si no recuerdo mal lo dejé
+funcionando y he ido documentando los controllers y demás, pero hoy no logro hacerlo funcionar (implementé clase de configuración
+OpenAPI e incluso en el genericHandler excluí las urls de swagger para que la ApiResponse no colisione pero no logré dejarlo estable
+y volví atrás estos intentos).
+Lamentablemente en las pocas horas que tengo de plazo no puedo solucionarlo, investigaré al respecto, seguro hay algo que se me está
+pasando por alto, para la próxima lo tendré solucionado ! =D
+
 ## API Response
 
 Se implementa una plantilla de respuesta standard para consistencia en el front.
@@ -183,3 +198,26 @@ La response expone a través de sus métodos success / failure un objeto de tipo
         List<T> data
     }
 ```
+
+# Retrospectiva
+
+![Retrospectiva](./src/main/resources/retrospectiva.png)
+
+### Burndown chart:
+
+https://wnorowsky.atlassian.net/jira/software/projects/ET/boards/38/reports/burnup
+
+# Comentarios finales (18/6 - 13hs)
+
+Fue muy divertido y me sirvió para recordar/ampliar conceptos y para implementar situaciones de arquitectura / DDD que entren
+en conflicto entre sí y toparme con el problema, entenderlo, buscar una solución y en definitiva aprender de la experiencia.
+Me sentí muy seguro, entiendo lo que hice y a conciencia, el uso de IA fue mínimo, para valorar situaciones y resolver dudas,
+nunca para copiar código, prefiero saber hacerlo!
+Hay algunos tests que no logré que lo que debiera ser una bad request, devuelva 400. Hay algún conflicto con los handlers
+o estoy pisando de alguna manera el code status, pero realmente funcionan y no permiten la acción que se está probando si se
+espera una excepción, solo que con un code 500 en vez de 400. Necesitaría debuggear con tiempo y solucionarlo.
+Si bien no es mi primera vez con Docker y levantando de manera similar la app, es por lejos la implementación más completa que
+he tratado hacer así que espero no haberme dejado nada de lado y que puedan solo con el .sh ver la app corriendo y pasando los test
+igual que la veo yo en mi pc.
+Muchas gracias !!
+Nico.
