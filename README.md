@@ -79,7 +79,7 @@ El desarrollo tomará solo un Sprint de 7 días (máximo) y será gestionado en 
 
 ### Jira
 
-https://wnorowsky.atlassian.net/jira/software/projects/ET/boards/38/backlog (deberían tener acceso público)
+https://wnorowsky.atlassian.net/jira/software/projects/ET/boards/38/timeline (deberían tener acceso público)
 
 
 Ya hice la entrega pero estoy viendo que no es posible acceder a Jira ni al burndown chart de forma pública..
